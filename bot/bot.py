@@ -1,9 +1,11 @@
 import config
 
 import geometrize_bot
-import tweet_image
+import on_status_event
 
-# Define some Twitter stream listener callbacks for the bot
+import geometrize
+
+# Create some Twitter stream listener callbacks for the bot
 def on_connect(api):
     print("Stream listener did connect")
 
@@ -17,11 +19,9 @@ def on_error(api, code):
 
 def on_status(api, status):
     print("Received stream listener status event")
-    username = status.user.screen_name
-    status_id = status.id
-    if 'media' in status.entities:
-        for image in status.entities['media']:
-            tweet_image.tweet_image(image['media_url'], username, status_id, self.api)
+    on_status_event.on_status_event(api, status)
+
+geometrize.geometrize("test_in.png", "test_out.png", "no_options") # TODO test, remove me
 
 # Create and set up the Geometrize bot using credentials defined in the config file.
 bot = geometrize_bot.GeometrizeBot(

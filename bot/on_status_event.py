@@ -6,7 +6,7 @@ from PIL import Image
 from PIL import ImageFile
 
 # Geometrizes and tweets an image
-def tweet_image(url, username, status_id, api):
+def _geometrize_and_tweet_image(url, username, status_id, api):
     print("Will tweet image")
     ImageFile.LOAD_TRUNCATED_IMAGES = True
     request = requests.get(url, stream = True)
@@ -18,3 +18,12 @@ def tweet_image(url, username, status_id, api):
         api.update_with_media(image_filename, status = '@{0}'.format(username), in_reply_to_status_id = status_id)
     else:
         print("Failed to download image")
+
+# Handles a status change event from the Twitter streaming API
+# In practice, this means waiting for media to appear and geometrizing it
+def on_status_event(api, status):
+    username = status.user.screen_name
+    status_id = status.id
+    if 'media' in status.entities:
+        for image in status.entities['media']:
+            _geometrize_and_tweet_image(image['media_url'], username, status_id, api)

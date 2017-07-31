@@ -1,0 +1,30 @@
+// This script loads up an image, creates an image job, applies preferences
+// It then adds the given number of shapes of each type, and writes the resulting image at the given file path
+
+var inputPath = ::IMAGE_INPUT_PATH::
+var outputPath = ::IMAGE_OUTPUT_PATH::
+
+// Load up an image file
+var image = loadImage(inputPath);
+if(image.isNull()) {
+    messageBox("Failed to load image from: " + inputPath);
+    return;
+}
+
+// Create a RGBA8888 bitmap from the image, that Geometrize can turn to shapes
+var bitmap = createBitmap(image);
+
+// Create an image job that aims to reproduce the bitmap as shapes
+// This implicitly uses the average color of the bitmap as the starting background
+// Note we use a synchronous job for simplicity/convenience
+var job = SynchronousImageJob(bitmap);
+
+// Step the image job, adding the shapes in the order specified by the injected code
+for (var i = 0; i < 50; ++i) {
+    job.stepModel(); // TODO should step for the given number of times for each shape type requested, in the given order too
+}
+
+// Exports the current bitmap to the output path
+if(!exportBitmap(job.getCurrent(), outputPath)) {
+    messageBox("Failed to write image to: " + outputPath);
+}

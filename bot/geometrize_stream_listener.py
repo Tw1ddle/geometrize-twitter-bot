@@ -1,5 +1,3 @@
-import uuid
-
 import tweepy
 
 class GeometrizeStreamListener(tweepy.StreamListener):

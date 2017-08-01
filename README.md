@@ -6,8 +6,8 @@
 
 Work in progress.
 
-This is a [Twitter bot](https://twitter.com/Geometrizer) for [Geometrize](http://www.geometrize.co.uk/), a tool for geometrizing images into geometric primitives. It waits for images to be tweeted at it, geometrizes these into shapes, and posts the results 
-on [Twitter](https://twitter.com/Geometrizer).
+This is a [Twitter bot](https://twitter.com/Geometrizer) for [Geometrize](http://www.geometrize.co.uk/), a tool for geometrizing images into geometric primitives. It waits for images to be tweeted at it, geometrizes the images into shapes, and [posts the results 
+on Twitter](https://twitter.com/Geometrizer).
 
 [![Geometrized Old Man of Storr](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/screenshots/old_man_of_storr.jpg?raw=true "Old Man of Storr, 400 triangles")](http://www.geometrize.co.uk/)
 
@@ -18,13 +18,13 @@ on [Twitter](https://twitter.com/Geometrizer).
 
 ## Usage
 
-Fill in your app credentials in [config.py](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/bot/config.py), and run the bot:
+Download, fill in your Twitter app credentials in [config.py](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/bot/config.py), and run the bot:
 
 ```
 python bot.py
 ```
 
-It should connect to Twitter. Expect output like this:
+It should connect to Twitter. Expect some output like this:
 
 ```
 Will create Geometrize bot
@@ -34,17 +34,17 @@ Did create Geometrize bot
 Stream listener did connect
 ```
 
-Once running, go on Twitter and tweet an image at the bot. After a few moments, the bot will tweet a geometrized version back at you (dependent on whether it has a backlog).
+Next, visit Twitter and tweet an image at the bot. After a few moments, the bot will tweet a geometrized version back at you (time taken may vary depending on how much of a backlog it has).
 
 ## Examples
 
-Tweet an image at the bot and wait:
+Simply tweet an image at the bot:
 
 ```
 @Geometrizer Hi, I like your bot!
 ```
 
-Or tweet specific numbers of shapes you want the bot to use, in the order they should be added:
+Tweet the specific numbers of shapes you want the bot to use, in the order they need to be added:
 
 ```
 @Geometrizer 50 rectangles, 50 circles, 50 rotated rectangles, 20 triangles. Thanks mister bot!

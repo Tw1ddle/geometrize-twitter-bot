@@ -1,1 +1,1 @@
-Copy the Geometrize executable and dependencies here.
+Install Geometrize to this folder, or copy the Geometrize executable and dependencies here.

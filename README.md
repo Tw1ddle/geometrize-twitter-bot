@@ -6,15 +6,15 @@
 
 Work in progress.
 
-This is a [Twitter bot](https://twitter.com/Geometrizer) for [Geometrize](http://www.geometrize.co.uk/), a tool for geometrizing images into geometric primitives. It takes any images tweeted at it, geometrizes them into shapes, and posts the results 
+This is a [Twitter bot](https://twitter.com/Geometrizer) for [Geometrize](http://www.geometrize.co.uk/), a tool for geometrizing images into geometric primitives. It waits for images to be tweeted at it, geometrizes these into shapes, and posts the results 
 on [Twitter](https://twitter.com/Geometrizer).
 
-[![Geometrized Astronaut](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/screenshots/steve_smith_repairs_hubble.jpg?raw=true "Steve Smith repairs the hubble, 400 rotated rectangles, 100 rotated ellipses")](https://github.com/Tw1ddle/geometrize-lib)
+[![Geometrized Old Man of Storr](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/screenshots/old_man_of_storr.jpg?raw=true "Old Man of Storr, 400 triangles")](http://www.geometrize.co.uk/)
 
 ## Prerequisites
 
- * A copy of [Geometrize](http://www.geometrize.co.uk/). Either install or copy it into the [geometrize](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/geometrize) subfolder.
- * An installation of Python 3.x and the pip, tweepy and Pillow libraries.
+ * A copy of [Geometrize](http://www.geometrize.co.uk/). Install or copy it into the [geometrize](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/geometrize) subfolder.
+ * Python 3.x with pip, tweepy and Pillow libraries.
 
 ## Usage
 
@@ -24,7 +24,7 @@ Fill in your app credentials in [config.py](https://github.com/Tw1ddle/geometriz
 python bot.py
 ```
 
-It should connect to Twitter, with output like this:
+It should connect to Twitter. Expect output like this:
 
 ```
 Will create Geometrize bot
@@ -32,23 +32,22 @@ Will create Twitter stream listener
 Did create Twitter stream listener
 Did create Geometrize bot
 Stream listener did connect
-
 ```
 
-Once running, go on Twitter and tweet an image at the bot. After a few moments, the bot will tweet the corresponding geometrized image back at you (dependent on whether it has a backlog, of course).
+Once running, go on Twitter and tweet an image at the bot. After a few moments, the bot will tweet a geometrized version back at you (dependent on whether it has a backlog).
 
 ## Examples
 
-Simply tweet an image at the bot and it will Geometrize it:
+Tweet an image at the bot and wait:
 
 ```
 @Geometrizer Hi, I like your bot!
 ```
 
-Also can tweet the shapes you want the bot to use, in the order they should be added:
+Or tweet specific numbers of shapes you want the bot to use, in the order they should be added:
 
 ```
-@Geometrizer 50 rectangles, 50 circles, 50 rotated rectangles, 20 triangles
+@Geometrizer 50 rectangles, 50 circles, 50 rotated rectangles, 20 triangles. Thanks mister bot!
 ```
 
 ## Notes

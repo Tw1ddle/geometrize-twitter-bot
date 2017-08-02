@@ -10,9 +10,9 @@ on Twitter](https://twitter.com/Geometrizer).
 
 [![Geometrized Old Man of Storr](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/screenshots/old_man_of_storr.jpg?raw=true "Old Man of Storr, 400 triangles")](http://www.geometrize.co.uk/)
 
-## Examples
+## Usage
 
-Simply tweet an image at the bot:
+Simply tweet an image at the [bot](https://twitter.com/Geometrizer):
 
 ```
 @Geometrizer Hi, cool geometrize bot!
@@ -24,28 +24,49 @@ Tweet the specific numbers of shapes you want the bot to use, in the order they 
 @Geometrizer 50 rectangles, 50 circles, 50 rotated rectangles, 20 triangles. Thanks geometrize bot!
 ```
 
-## Setup
+## Development
+
+### Prerequisites
 
  * A copy of [Geometrize](http://www.geometrize.co.uk/). Install or copy it into the [geometrize](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/geometrize) subfolder.
  * Python 3.x with pip, tweepy and Pillow libraries.
 
-Download, fill in your Twitter app credentials in [config.py](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/bot/config.py), and run the bot:
+### Setup Steps
+
+Fill in your Twitter app credentials in [config.py](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/bot/config.py), and run the bot:
 
 ```
 python bot.py
 ```
 
-It should connect to Twitter. Expect some output like this:
+The bot should connect to the Twitter streaming API with console output like this:
 
 ```
+$ python bot.py
+
+ ..|'''.|  '||''''|   ..|''||   '||    ||' '||''''|  |''||''| '||''|.   '||' |'''''||  '||''''|
+.|'     '   ||  .    .|'    ||   |||  |||   ||  .       ||     ||   ||   ||      .|'    ||  .
+||    ....  ||''|    ||      ||  |'|..'||   ||''|       ||     ||''|'    ||     ||      ||''|
+'|.    ||   ||       '|.     ||  | '|' ||   ||          ||     ||   |.   ||   .|'       ||
+ ''|...'|  .||.....|  ''|...|'  .|. | .||. .||.....|   .||.   .||.  '|' .||. ||......| .||.....|
+
++-+-+-+-+-+-+-+ +-+-+-+
+|T|W|I|T|T|E|R| |B|O|T|
++-+-+-+-+-+-+-+ +-+-+-+
+
+Running test to ensure Geometrize is working correctly...
+Geometrize startup test succeeded!
+
 Will create Geometrize bot
 Will create Twitter stream listener
 Did create Twitter stream listener
 Did create Geometrize bot
-Stream listener did connect
+Twitter stream listener did connect
 ```
 
-Next, visit Twitter and tweet an image at the bot. After a few moments, the bot will tweet a geometrized version back at you (time taken varies depending on how much of a backlog there is).
+Next, go on Twitter and tweet an image at the bot. After a few moments, the bot will tweet a geometrized version back at you.
+
+If you want to take the bot further, I recommend reading the [documentation](http://botdocs.geometrize.co.uk/).
 
 ## Notes
  * Got an idea or suggestion? Open an issue on GitHub, or send Sam a message on [Twitter](https://twitter.com/Sam_Twidale).

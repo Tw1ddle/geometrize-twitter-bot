@@ -18,5 +18,5 @@ install:
 test_script:
   - cd %APPVEYOR_BUILD_FOLDER%
   - pushd bot
-  - python bot.exe
+  - python bot.py
   - popd

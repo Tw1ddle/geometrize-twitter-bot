@@ -8,7 +8,6 @@ python:
   - "3.6"
 
 install:
-  - pip install --disable-pip-version-check --user --upgrade pip
   - pip install pillow
   - pip install tweepy
 

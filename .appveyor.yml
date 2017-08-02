@@ -13,6 +13,7 @@ build: off
 
 install:
   # Get the Twitter bot library dependencies
+  - "%PYTHON%\\python.exe -m pip install --upgrade pip"
   - "%PYTHON%\\python.exe -m pip install pillow"
   - "%PYTHON%\\python.exe -m pip install tweepy"
 

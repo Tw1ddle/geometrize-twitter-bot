@@ -28,8 +28,8 @@ Or tweet the specific numbers of shapes you want the bot to use, in the order th
 
 ### Prerequisites
 
- * A copy of [Geometrize](http://www.geometrize.co.uk/). Install or copy it into the [geometrize](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/geometrize) subfolder.
- * Python 3.x with pip, tweepy and Pillow libraries.
+ * Get a copy of [Geometrize](http://www.geometrize.co.uk/). Install or copy it into the [geometrize](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/geometrize) subfolder.
+ * Install Python 3.x, pip, and the tweepy and Pillow libraries.
 
 ### Setup
 

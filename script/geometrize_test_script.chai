@@ -1,1 +1,1 @@
-printToConsole("Working...");
+messageBox("This is a ChaiScript script test...!");

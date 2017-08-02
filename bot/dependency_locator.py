@@ -38,6 +38,7 @@ def get_geometrize_script_folder_absolute_path():
 
 """
 Reads a Chaiscript script file at the given location, returning the text content of the file.
+:return An empty string if we failed to read the script.
 """
 def read_script_file(filepath):
     with open(filepath, 'r') as content_file:

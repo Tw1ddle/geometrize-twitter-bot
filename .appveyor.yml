@@ -14,8 +14,8 @@ install:
   - "%PYTHON%\\python.exe -m pip install pillow"
   - "%PYTHON%\\python.exe -m pip install tweepy"
 
-# Attempt to run the bot (expect failure to connect due to bad credentials)
 test_script:
+  # Attempt to run the bot (expect failure to connect due to bad credentials)
   - cd %APPVEYOR_BUILD_FOLDER%
   - pushd bot
   - python bot.py

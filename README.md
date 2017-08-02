@@ -10,12 +10,24 @@ on Twitter](https://twitter.com/Geometrizer).
 
 [![Geometrized Old Man of Storr](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/screenshots/old_man_of_storr.jpg?raw=true "Old Man of Storr, 400 triangles")](http://www.geometrize.co.uk/)
 
-## Prerequisites
+## Examples
+
+Simply tweet an image at the bot:
+
+```
+@Geometrizer Hi, cool geometrize bot!
+```
+
+Tweet the specific numbers of shapes you want the bot to use, in the order they will be added to the image:
+
+```
+@Geometrizer 50 rectangles, 50 circles, 50 rotated rectangles, 20 triangles. Thanks geometrize bot!
+```
+
+## Setup
 
  * A copy of [Geometrize](http://www.geometrize.co.uk/). Install or copy it into the [geometrize](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/geometrize) subfolder.
  * Python 3.x with pip, tweepy and Pillow libraries.
-
-## Usage
 
 Download, fill in your Twitter app credentials in [config.py](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/bot/config.py), and run the bot:
 
@@ -33,21 +45,7 @@ Did create Geometrize bot
 Stream listener did connect
 ```
 
-Next, visit Twitter and tweet an image at the bot. After a few moments, the bot will tweet a geometrized version back at you (time taken may vary depending on how much of a backlog it has).
-
-## Examples
-
-Simply tweet an image at the bot:
-
-```
-@Geometrizer Hi, cool geometrize bot!
-```
-
-Tweet the specific numbers of shapes you want the bot to use, in the order they need to be added:
-
-```
-@Geometrizer 50 rectangles, 50 circles, 50 rotated rectangles, 20 triangles. Thanks geometrize bot!
-```
+Next, visit Twitter and tweet an image at the bot. After a few moments, the bot will tweet a geometrized version back at you (time taken varies depending on how much of a backlog there is).
 
 ## Notes
  * Got an idea or suggestion? Open an issue on GitHub, or send Sam a message on [Twitter](https://twitter.com/Sam_Twidale).

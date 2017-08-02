@@ -11,6 +11,10 @@ install:
   - pip install pillow
   - pip install tweepy
 
+# Install Travis so we can get the token from Travis
+before_script:
+  - gem install travis
+
 script:
   # Attempt to run the bot (expect failure to connect due to bad credentials)
   - pushd bot

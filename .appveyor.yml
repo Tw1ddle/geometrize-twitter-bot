@@ -1,0 +1,22 @@
+environment:
+  matrix:
+    # For Python versions available on Appveyor, see
+    # http://www.appveyor.com/docs/installed-software#python
+    - PYTHON: "C:\\Python33"
+    - PYTHON: "C:\\Python34"
+    - PYTHON: "C:\\Python35"
+    - PYTHON: "C:\\Python33-x64"
+    - PYTHON: "C:\\Python34-x64"
+    - PYTHON: "C:\\Python35-x64"
+
+install:
+  # Get the Twitter bot library dependencies
+  - "%PYTHON%\\python.exe -m pip install pillow"
+  - "%PYTHON%\\python.exe -m pip install tweepy"
+
+# Attempt to run the bot (expect failure to connect due to bad credentials)
+test_script:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - pushd bot
+  - python bot.exe
+  - popd

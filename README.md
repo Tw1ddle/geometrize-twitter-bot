@@ -4,8 +4,6 @@
 [![Travis Twitter Bot Build Status](https://img.shields.io/travis/Tw1ddle/geometrize-twitter-bot.svg?style=flat-square)](https://travis-ci.org/Tw1ddle/geometrize-twitter-bot)
 [![AppVeyor Twitter Bot Build Status](https://ci.appveyor.com/api/projects/status/TODO?svg=true)](https://ci.appveyor.com/project/Tw1ddle/geometrize-twitter-bot)
 
-Work in progress.
-
 This is a [Twitter bot](https://twitter.com/Geometrizer) for [Geometrize](http://www.geometrize.co.uk/), a tool for geometrizing images into geometric primitives. It waits for images to be tweeted at it, geometrizes the images into shapes, and [posts the results 
 on Twitter](https://twitter.com/Geometrizer).
 
@@ -41,13 +39,13 @@ Next, visit Twitter and tweet an image at the bot. After a few moments, the bot 
 Simply tweet an image at the bot:
 
 ```
-@Geometrizer Hi, I like your bot!
+@Geometrizer Hi, cool geometrize bot!
 ```
 
 Tweet the specific numbers of shapes you want the bot to use, in the order they need to be added:
 
 ```
-@Geometrizer 50 rectangles, 50 circles, 50 rotated rectangles, 20 triangles. Thanks mister bot!
+@Geometrizer 50 rectangles, 50 circles, 50 rotated rectangles, 20 triangles. Thanks geometrize bot!
 ```
 
 ## Notes

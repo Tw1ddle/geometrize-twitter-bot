@@ -1,18 +1,40 @@
+from subprocess import call
+
 from PIL import Image
 from PIL import ImageFile
 
 import dependency_locator
 
 """
-Creates a Chaiscript script that will be fed to Geometrize, in order to Geometrize an image.
+Reads a Chaiscript script out of the Twitter bot scripts folder to feed to Geometrize.
 If no arguments are passed, one of the pre-set scripts will be selected.
 """
-def _create_geometrize_script():
-    script = dependency_locator.read_script_file("../script/geometrize_shape_choice_template.chai") # TODO
-    return script
+def _read_geometrize_script(filename):
+    filepath = dependency_locator.get_geometrize_script_folder_absolute_path() + filename
+    return dependency_locator.read_script_file(filepath)
 
-def _execute_geometrize_script(script):
-    dependency_locator.get_geometrize_executable_path() + " --script " + script
+"""
+Replaces all instances of a symbol in the given code with the given value.
+"""
+def _replace_symbol(code, symbol, value):
+    code.replace(symbol, value)
+    return code
+
+"""
+Replaces all instances of symbols in the code from the given dictionary with their corresponding values.
+"""
+def _replace_symbols(code, dict):
+    for key, value in d.items():
+        code = _replace_symbol(key, value)
+
+"""
+Executes the given script source code.
+:return The Geometrize process return code, 0 indicates success.
+"""
+def _execute_geometrize_code(code):
+    executable_path = dependency_locator.get_geometrize_executable_path()
+    script_inline_flag = "--script_inline"
+    return call([executable_path, script_inline_flag, code])
 
 """
 Geometrizes the given image file, saving the resulting geometrized image to another file.
@@ -22,16 +44,13 @@ Geometrizes the given image file, saving the resulting geometrized image to anot
 >>> geometrize('file_in.jpg', 'file_out.jpg', "@Geometrizer 300 circles, 200 rectangles, 50 rotated rectangles")
 >>> geometrize('another_file_in.jpg', 'file_out.jpg', "")
 >>> geometrize('in.jpg', 'out.jpg', "@Geometrizer 10 rotated rectangles, 20 rotated ellipses, 50 triangles")
-
-:param filename_in: the file that Geometrize will read in as the target image.
-:param filename_out: the file that Geometrize will write out after geometrizing the target image.
 :param options: the Geometrize options. This is a human-readable string that may contain key-value pairs - usually the body of a tweet.
 :return True if the file was geometrized successfully, else false.
 """
 def geometrize(filename_in, filename_out, options):
     print("Will geometrize image: " + filename_in + " and save it as: " + filename_out + " for options: " + options)
 
-    script = _create_geometrize_script()
+    script = _read_geometrize_script("/geometrize_test_script.chai")
 
     print("Loaded script: " + script)
 
@@ -39,12 +58,10 @@ def geometrize(filename_in, filename_out, options):
 
 """
 Performs some basic tests to ensure that Geometrize is executing scripts and turning images into shapes properly.
+:return True if the tests succeeded, else false.
 """
 def test_geometrize():
-    print("Running tests to ensure Geometrize is working correctly...")
+    code = _read_geometrize_script("/geometrize_test_script.chai")
+    ret_code = _execute_geometrize_code(code)
 
-    script = _create_geometrize_script()
-
-    _execute_geometrize_script("todo.chai")
-    
-    print("Test complete!\n")
+    return ret_code == 0

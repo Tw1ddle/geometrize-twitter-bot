@@ -30,6 +30,13 @@ def geometrize_executable_exists():
     return os.path.exists(get_geometrize_executable_path())
 
 """
+Gets an absolute path to the bot scripts folder
+"""
+def get_geometrize_script_folder_absolute_path():
+    baseDir = os.path.dirname(__file__)
+    return os.path.normpath(os.path.join(baseDir, "../script/"))
+
+"""
 Reads a Chaiscript script file at the given location, returning the text content of the file.
 """
 def read_script_file(filepath):

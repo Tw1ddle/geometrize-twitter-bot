@@ -1,9 +1,26 @@
-import config
+import sys
 
+import config
 import geometrize_bot
 import on_status_event
 
 import geometrize
+
+print("                                                                                                ")
+print(" ..|'''.|  '||''''|   ..|''||   '||    ||' '||''''|  |''||''| '||''|.   '||' |'''''||  '||''''| ")
+print(".|'     '   ||  .    .|'    ||   |||  |||   ||  .       ||     ||   ||   ||      .|'    ||  .   ")
+print("||    ....  ||''|    ||      ||  |'|..'||   ||''|       ||     ||''|'    ||     ||      ||''|   ")
+print("'|.    ||   ||       '|.     ||  | '|' ||   ||          ||     ||   |.   ||   .|'       ||      ")
+print(" ''|...'|  .||.....|  ''|...|'  .|. | .||. .||.....|   .||.   .||.  '|' .||. ||......| .||.....|")
+print("                                                                                                ")
+print("+-+-+-+-+-+-+-+ +-+-+-+")
+print("|T|W|I|T|T|E|R| |B|O|T|")
+print("+-+-+-+-+-+-+-+ +-+-+-+")
+print("                       ")
+
+if not config.validate_credentials():
+    print("Failed to validate app credentials, will exit. Did you remember to enter them in config.py?")
+    sys.exit(1)
 
 # Create some Twitter stream listener callbacks for the bot
 def on_connect(api):

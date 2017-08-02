@@ -1,26 +1,18 @@
-import os
-
 from PIL import Image
 from PIL import ImageFile
 
-"""
-Reads a Chaiscript script file at the given location, returning the text content of the file.
-"""
-def _read_script_file(filepath):
-    with open(filepath, 'r') as content_file:
-        content = content_file.read()
-        return content
-    
-    print("Failed to read Geometrize script at: " + filepath)
-    return ""
+import dependency_locator
 
 """
 Creates a Chaiscript script that will be fed to Geometrize, in order to Geometrize an image.
 If no arguments are passed, one of the pre-set scripts will be selected.
 """
-def _create_geometrize_script(options):
-    script = _read_script_file("../script/geometrize_shape_choice_template.chai")
+def _create_geometrize_script():
+    script = dependency_locator.read_script_file("../script/geometrize_shape_choice_template.chai") # TODO
     return script
+
+def _execute_geometrize_script(script):
+    dependency_locator.get_geometrize_executable_path() + " --script " + script
 
 """
 Geometrizes the given image file, saving the resulting geometrized image to another file.
@@ -39,10 +31,20 @@ Geometrizes the given image file, saving the resulting geometrized image to anot
 def geometrize(filename_in, filename_out, options):
     print("Will geometrize image: " + filename_in + " and save it as: " + filename_out + " for options: " + options)
 
-    script = _create_geometrize_script(None)
+    script = _create_geometrize_script()
 
     print("Loaded script: " + script)
 
-    command = '../geometrize/Geometrize.exe --script'
-
     return True
+
+"""
+Performs some basic tests to ensure that Geometrize is executing scripts and turning images into shapes properly.
+"""
+def test_geometrize():
+    print("Running tests to ensure Geometrize is working correctly...")
+
+    script = _create_geometrize_script()
+
+    _execute_geometrize_script("todo.chai")
+    
+    print("Test complete!\n")

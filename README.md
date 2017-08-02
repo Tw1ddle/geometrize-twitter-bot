@@ -2,7 +2,7 @@
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/LICENSE)
 [![Travis Twitter Bot Build Status](https://img.shields.io/travis/Tw1ddle/geometrize-twitter-bot.svg?style=flat-square)](https://travis-ci.org/Tw1ddle/geometrize-twitter-bot)
-[![AppVeyor Twitter Bot Build Status](https://ci.appveyor.com/api/projects/status/TODO?svg=true)](https://ci.appveyor.com/project/Tw1ddle/geometrize-twitter-bot)
+[![AppVeyor Twitter Bot Build Status](https://ci.appveyor.com/api/projects/status/e9d5ghphfm3oa2au?svg=true)](https://ci.appveyor.com/project/Tw1ddle/geometrize-twitter-bot)
 [![Travis Twitter Bot Docs Build Status](https://img.shields.io/travis/Tw1ddle/geometrize-twitter-bot-docs.svg?style=flat-square)](https://travis-ci.org/Tw1ddle/geometrize-twitter-bot-docs)
 
 This is a [Twitter bot](https://twitter.com/Geometrizer) for [Geometrize](http://www.geometrize.co.uk/), a tool for geometrizing images into geometric primitives. It waits for images to be tweeted at it, geometrizes the images into shapes, and [posts the results 

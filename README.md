@@ -12,13 +12,13 @@ on Twitter](https://twitter.com/Geometrizer).
 
 ## Usage
 
-Simply tweet an image at the [bot](https://twitter.com/Geometrizer):
+Tweet an image at the [bot](https://twitter.com/Geometrizer):
 
 ```
 @Geometrizer Hi, cool geometrize bot!
 ```
 
-Tweet the specific numbers of shapes you want the bot to use, in the order they will be added to the image:
+Or tweet the specific numbers of shapes you want the bot to use, in the order they will be added to the image:
 
 ```
 @Geometrizer 50 rectangles, 50 circles, 50 rotated rectangles, 20 triangles. Thanks geometrize bot!
@@ -31,15 +31,15 @@ Tweet the specific numbers of shapes you want the bot to use, in the order they 
  * A copy of [Geometrize](http://www.geometrize.co.uk/). Install or copy it into the [geometrize](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/geometrize) subfolder.
  * Python 3.x with pip, tweepy and Pillow libraries.
 
-### Setup Steps
+### Setup
 
-Fill in your Twitter app credentials in [config.py](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/bot/config.py), and run the bot:
+Fill in your Twitter app credentials in [config.py](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/bot/config.py) and run the bot:
 
 ```
 python bot.py
 ```
 
-The bot should connect to the Twitter streaming API with console output like this:
+The bot should connect to the Twitter streaming API with the following console output:
 
 ```
  ..|'''.|  '||''''|   ..|''||   '||    ||' '||''''|  |''||''| '||''|.   '||' |'''''||  '||''''|
@@ -62,7 +62,7 @@ Did create Geometrize bot
 Twitter stream listener did connect
 ```
 
-Finally tweet an image at the bot. After a few moments, the bot will tweet the geometrized version back at you.
+Tweet an image at the bot. After a few moments, the bot will tweet the geometrized version back at you.
 
 ## Notes
  * If you want to develop the bot further, take a look at the [documentation](http://botdocs.geometrize.co.uk/).

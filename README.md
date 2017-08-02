@@ -30,10 +30,11 @@ Or tweet the specific numbers of shapes you want the bot to use, in the order th
 
  * Get a copy of [Geometrize](http://www.geometrize.co.uk/). Install or copy it into the [geometrize](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/geometrize) subfolder.
  * Install Python 3.x, pip, and the tweepy and Pillow libraries.
+ * A fresh Twitter app on the Twitter [apps dashboard](https://apps.twitter.com/).
 
 ### Setup
 
-Fill in your Twitter app credentials in [config.py](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/bot/config.py) and run the bot:
+Fill in the Twitter app credentials in [config.py](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/bot/config.py) and then run the bot:
 
 ```
 python bot.py
@@ -62,7 +63,7 @@ Did create Geometrize bot
 Twitter stream listener did connect
 ```
 
-Tweet an image at the bot. After a few moments, the bot will tweet the geometrized version back at you.
+Tweet an image at the bot. After a few moments, the bot will tweet a geometrized version back at you.
 
 ## Notes
  * If you want to develop the bot further, take a look at the [documentation](http://botdocs.geometrize.co.uk/).

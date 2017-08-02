@@ -9,6 +9,8 @@ environment:
     - PYTHON: "C:\\Python34-x64"
     - PYTHON: "C:\\Python35-x64"
 
+build: off
+
 install:
   # Get the Twitter bot library dependencies
   - "%PYTHON%\\python.exe -m pip install pillow"

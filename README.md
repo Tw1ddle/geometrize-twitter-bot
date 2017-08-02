@@ -42,8 +42,6 @@ python bot.py
 The bot should connect to the Twitter streaming API with console output like this:
 
 ```
-$ python bot.py
-
  ..|'''.|  '||''''|   ..|''||   '||    ||' '||''''|  |''||''| '||''|.   '||' |'''''||  '||''''|
 .|'     '   ||  .    .|'    ||   |||  |||   ||  .       ||     ||   ||   ||      .|'    ||  .
 ||    ....  ||''|    ||      ||  |'|..'||   ||''|       ||     ||''|'    ||     ||      ||''|
@@ -64,10 +62,9 @@ Did create Geometrize bot
 Twitter stream listener did connect
 ```
 
-Next, go on Twitter and tweet an image at the bot. After a few moments, the bot will tweet a geometrized version back at you.
-
-If you want to take the bot further, I recommend reading the [documentation](http://botdocs.geometrize.co.uk/).
+Finally tweet an image at the bot. After a few moments, the bot will tweet the geometrized version back at you.
 
 ## Notes
+ * If you want to develop the bot further, take a look at the [documentation](http://botdocs.geometrize.co.uk/).
  * Got an idea or suggestion? Open an issue on GitHub, or send Sam a message on [Twitter](https://twitter.com/Sam_Twidale).
  * This bot was inspired by [primitive](https://github.com/fogleman/primitive), a Go library created by [Michael Fogleman](https://github.com/fogleman).

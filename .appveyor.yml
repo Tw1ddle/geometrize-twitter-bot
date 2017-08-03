@@ -17,9 +17,8 @@ install:
   - "%PYTHON%\\python.exe -m pip install tweepy"
 
 test_script:
-  # Attempt to run the bot
+  # Attempt to run the bot (expect failure to connect due to bad credentials)
   - cd %APPVEYOR_BUILD_FOLDER%
   - pushd bot
-  - "%PYTHON%\\python.exe bot.py"
-  # Expect failure to connect due to bad credentials
-  - IF %ERRORLEVEL% EQU 1 EXIT /b 0
+  - "%PYTHON%\\python.exe bot.py" && EXIT 0
+  - popd

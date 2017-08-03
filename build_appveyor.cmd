@@ -1,4 +1,6 @@
-"%PYTHON%\\python.exe"
+pushd bot
+
+"%PYTHON%\\python.exe" bot.py
 
 if %ERRORLEVEL% EQU 1 (
    echo Success

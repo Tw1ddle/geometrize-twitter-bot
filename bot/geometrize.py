@@ -3,7 +3,10 @@
 
 from subprocess import call
 
+from PIL import Image
+
 import dependency_locator
+import image_console_printer
 
 ## Reads a Chaiscript script out of the Twitter bot scripts folder to feed to Geometrize.
 ## If no arguments are passed, one of the pre-set scripts will be selected.
@@ -49,5 +52,10 @@ def geometrize(symbols):
 ## :return True if the tests succeeded, else false.
 def test_geometrize():
     code = _read_geometrize_script("/geometrize_test_script.chai")
+    code = _replace_symbol(code, "::INPUT_FILE::", "input.png")
+    code = _replace_symbol(code, "::OUTPUT_FILE::", "output.png")
     ret_code = _execute_geometrize_code(code)
+
+    image_console_printer.print_image_to_console(Image.open("../screenshots/test_image.png"))
+
     return ret_code == 0

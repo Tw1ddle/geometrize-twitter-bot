@@ -26,11 +26,11 @@ if not dependency_locator.geometrize_executable_exists():
     sys.exit(2)
 
 # Run a quick test script to confirm Geometrize is in working order.
-print("Running test to ensure Geometrize is working correctly...")
+print("Running startup tests to ensure Geometrize is working...\r\n")
 if geometrize.test_geometrize():
-    print("Geometrize startup test succeeded!\r\n")
+    print("Geometrize startup tests succeeded!\r\n")
 else:
-    print("Geometrize startup test failed. Please report the issue here: https://github.com/Tw1ddle/geometrize-twitter-bot \r\n")
+    print("Geometrize startup tests failed. Please report an issue here: https://github.com/Tw1ddle/geometrize-twitter-bot \r\n")
     sys.exit(3)
 
 ## Callback triggered when the stream listener connects.

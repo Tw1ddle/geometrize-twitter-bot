@@ -2,16 +2,15 @@ import uuid
 
 from io import BytesIO
 
-from PIL import Image
-from PIL import ImageFile
+import PIL
 
 # Geometrizes and tweets an image
 def _geometrize_and_tweet_image(url, username, status_id, api):
     print("Will tweet image")
-    ImageFile.LOAD_TRUNCATED_IMAGES = True
+    PIL.ImageFile.LOAD_TRUNCATED_IMAGES = True
     request = requests.get(url, stream = True)
     if request.status_code == 200:
-        i = Image.open(BytesIO(request.content))
+        i = PIL.Image.open(BytesIO(request.content))
         filename = 'temp_' + uuid.uuid4() + '.jpg'
         i.save(filename)
         geometrize(filename, '')

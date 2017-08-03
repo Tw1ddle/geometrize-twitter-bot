@@ -1,3 +1,6 @@
+## @package geometrize_bot
+#  This module encapsulates the Geometrize bot class, which sets up a connection to the Twitter streaming API when instantiated.
+
 import tweepy
 
 import geometrize_stream_listener

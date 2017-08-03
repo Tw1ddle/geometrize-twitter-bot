@@ -1,3 +1,6 @@
+## @package geometrize_stream_listener
+#  This module contains the Geometrize bot stream listener, which triggers various callbacks when Twitter API events occur.
+
 import tweepy
 
 class GeometrizeStreamListener(tweepy.StreamListener):

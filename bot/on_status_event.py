@@ -1,3 +1,7 @@
+## @package on_status_event
+#  This module contains the code that the bot runs when it receives a status event.
+#  This is where most of the work is set in motion e.g. the bot receives a Tweet, it parses the tweet, and figures out how to respond.
+
 import uuid
 
 from io import BytesIO

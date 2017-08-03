@@ -1,4 +1,5 @@
-# Bot configuration info
+## @package config
+#  Module containing secret keys and bot configuration info.
 
 # Secret Twitter app keys. Enter your own here. Never make these public.
 OAUTH_CONSUMER_KEY = "YOUR_VALUE_HERE"
@@ -6,8 +7,10 @@ OAUTH_CONSUMER_SECRET = "YOUR_VALUE_HERE"
 OAUTH_ACCESS_TOKEN = "YOUR_VALUE_HERE"
 OAUTH_ACCESS_SECRET = "YOUR_VALUE_HERE"
 
-UNCONFIGURED_CREDENTIAL_VALUE = "YOUR_VALUE_HERE" # Used to error out if credentials aren't configured
+# Used to error out if credentials aren't configured
+UNCONFIGURED_CREDENTIAL_VALUE = "YOUR_VALUE_HERE"
 
+## Checks whether credentials have been filled out in the bot configuration file.
 def validate_credentials():
    return (OAUTH_CONSUMER_KEY != UNCONFIGURED_CREDENTIAL_VALUE
    and OAUTH_CONSUMER_SECRET != UNCONFIGURED_CREDENTIAL_VALUE

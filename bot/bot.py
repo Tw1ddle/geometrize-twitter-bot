@@ -1,3 +1,8 @@
+## @package bot
+#  Module that sets up the Geometrize Twitter bot.
+#
+#  Invoke this script to run the bot e.g. "python bot.py".
+
 import sys
 
 import config
@@ -28,18 +33,21 @@ else:
     print("Geometrize startup test failed. Please report the issue here: https://github.com/Tw1ddle/geometrize-twitter-bot \r\n")
     sys.exit(3)
 
-# Create some Twitter stream listener callbacks for the bot.
+## Callback triggered when the stream listener connects.
 def on_connect(api):
     print("Twitter stream listener did connect")
 
+## Callback triggered when the stream listener times out.
 def on_timeout(api):
     print("Twitter stream listener did time out")
     return False
 
+## Callback triggered when the listener encounters an error.
 def on_error(api, code):
     print("Encountered Twitter error response: %s" % code)
     return True
 
+## Callback triggered when the stream listener reports a status event.
 def on_status(api, status):
     print("Received Twitter stream listener status event")
     on_status_event.on_status_event(api, status)

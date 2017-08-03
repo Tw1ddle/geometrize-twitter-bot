@@ -1,3 +1,6 @@
+## @package launch_text
+#  This module has code for printing pretty launch ASCII art text.
+
 def print_launch_text():
     print("                                                                                                ")
     print(" ..|'''.|  '||''''|   ..|''||   '||    ||' '||''''|  |''||''| '||''|.   '||' |'''''||  '||''''| ")

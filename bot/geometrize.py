@@ -29,11 +29,6 @@ def _execute_geometrize_code(code):
     script_inline_flag = "--script_inline"
     return call([executable_path, script_inline_flag, code])
 
-## Geometrizes the given image file, saving the resulting geometrized image to another file.
-## :return True if the file was geometrized successfully, else false.
-def geometrize_tweet(message):
-    print("TODO")
-
 def geometrize(symbols):
     print("Will run Geometrize script with options: " + options)
 

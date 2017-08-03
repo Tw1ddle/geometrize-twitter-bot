@@ -20,5 +20,5 @@ test_script:
   # Attempt to run the bot (expect failure to connect due to bad credentials)
   - cd %APPVEYOR_BUILD_FOLDER%
   - pushd bot
-  - "%PYTHON%\\python.exe bot.py" && EXIT 0
+  - "%PYTHON%\\python.exe" bot.py && EXIT 0
   - popd

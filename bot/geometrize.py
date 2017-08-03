@@ -1,8 +1,5 @@
 from subprocess import call
 
-from PIL import Image
-from PIL import ImageFile
-
 import dependency_locator
 
 """

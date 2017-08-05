@@ -34,6 +34,6 @@ class GeometrizeBot:
         self.stream = tweepy.Stream(self.auth, self.stream_listener)
 
         # Start listening for any tweets that @ the bot.
-        self.stream.filter(track=[twitter_bot_username], async=True)
+        self.stream.filter(track = [twitter_bot_username], async = True)
 
         print("Did create Geometrize bot")

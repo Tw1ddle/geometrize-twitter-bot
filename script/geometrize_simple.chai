@@ -1,8 +1,8 @@
 // This script loads up an image, creates an image job, applies preferences
 // It then adds the given number of shapes, and writes the resulting image at the given file path
 
-var inputPath = ::IMAGE_INPUT_PATH::
-var outputPath = ::IMAGE_OUTPUT_PATH::
+var inputPath = "::IMAGE_INPUT_PATH::";
+var outputPath = "::IMAGE_OUTPUT_PATH::";
 var stepCount = randomInRange(100, 300);
 
 // Load up an image file

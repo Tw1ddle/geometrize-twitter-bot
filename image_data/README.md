@@ -1,0 +1,1 @@
+This folder is where the bot stores images it downloaded from Twitter and the Geometrized results.

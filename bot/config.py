@@ -22,5 +22,5 @@ TWITTER_BOT_USERNAME = "@Geometrizer" # The official bot by https://twitter.com/
 
 # Twitter usernames of accounts that the Geometrize bot will actively watch for new tweets.
 # When a tweet contains images, Geometrize will geometrize the images and tweet the image.
-# Not used for the time being
-#TWITTER_BOT_WATCH_ACCOUNTS = ["@PexelsPhotos", "@cc0_landscapes", "@unsplash"]
+# Not used for the time being.
+TWITTER_BOT_WATCH_ACCOUNTS = ["@PexelsPhotos", "@cc0_landscapes", "@unsplash"]

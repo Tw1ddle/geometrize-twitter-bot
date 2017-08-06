@@ -1,6 +1,6 @@
 ## @package script_wrangler
-#  This module contains code that manipulates ChaiScript template scripts to be executed by Geometrize.
-#  The purpose of this is to find and replace tags in scripts e.g. ::IMAGE_INPUT_PATH:: to "path/to/image.png"
+#  This module contains code that manipulates ChaiScript template scripts before they can be executed by Geometrize.
+#  The main purpose is to find and replace tags in scripts e.g. ::IMAGE_INPUT_PATH:: to "path/to/image.png"
 
 import re
 

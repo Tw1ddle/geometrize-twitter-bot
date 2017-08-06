@@ -82,7 +82,7 @@ def test_geometrize():
     if(script_wrangler.code_contains_tags(code)):
         print("Failed to replace all template tags in script, script will fail")
         return False
-    
+
     ret_code = _run_geometrize_code(code)
 
     if ret_code != 0:
@@ -96,10 +96,10 @@ def test_geometrize():
         print("Failed to read the resulting geometrized image, test script will fail")
         return False
 
-    print("Printing result image to console\r\n")
+    print("Printing input image to console\r\n")
     image_console_printer.print_image_to_console(input_image)
 
-    print("Printing test results to console\r\n")
+    print("Printing Geometrized image to console\r\n")
     image_console_printer.print_image_to_console(output_image)
 
     return True

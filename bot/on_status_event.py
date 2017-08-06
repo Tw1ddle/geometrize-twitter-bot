@@ -3,11 +3,10 @@
 #  This is where most of the work is triggered e.g. the bot receives a Tweet, it parses the tweet, and figures out how to respond.
 
 import re
+import requests
 import uuid
 
 from io import BytesIO
-
-import requests
 
 from PIL import Image
 from PIL import ImageFile
@@ -90,9 +89,10 @@ def on_status_event(api, status):
             download_filepath = dependency_locator.get_geometrize_image_file_absolute_path(download_filename)
             result_filepath = dependency_locator.get_geometrize_image_file_absolute_path('geometrized_' + download_filename)
             
-            geometrize_options = tweet_parser.parse_tweet_for_options(message)
+            geometrize_options = {}
             geometrize_options["::IMAGE_INPUT_PATH::"] = download_filepath
             geometrize_options["::IMAGE_OUTPUT_PATH::"] = result_filepath
+            geometrize_options["::IMAGE_JOB_STEP_LOOPS::"] = tweet_parser.parse_tweet_for_shape_script(message)
 
             if(_download_and_save_image(image['media_url'], download_filepath)):
                 if(geometrize.run_geometrize(code, geometrize_options)):

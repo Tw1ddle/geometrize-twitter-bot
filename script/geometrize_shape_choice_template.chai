@@ -1,6 +1,5 @@
 var inputPath = "::IMAGE_INPUT_PATH::";
 var outputPath = "::IMAGE_OUTPUT_PATH::";
-var stepCount = 100;
 
 // Load up an image file
 var image = loadImage(inputPath);
@@ -18,9 +17,7 @@ var bitmap = createBitmap(image);
 var job = SynchronousImageJob(bitmap);
 
 // Step the image job
-for (var i = 0; i < stepCount; ++i) {
-    job.stepModel();
-}
+::IMAGE_JOB_STEP_LOOPS::
 
 // Exports the current bitmap to the output path
 if(!exportBitmap(job.getCurrent(), outputPath)) {

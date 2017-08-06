@@ -22,7 +22,8 @@ def get_geometrize_executable_path():
     baseDir = os.path.dirname(__file__)
     return os.path.normpath(os.path.join(baseDir, _get_geometrize_relative_path())).replace('\\', '/')
 
-## Returns true if the Geometrize executable exists at an expected location, else false.
+## Checks if the Geometrize executable exists.
+## Returns true if the Geometrize executable exists at the expected location, else false.
 def geometrize_executable_exists():
     return os.path.exists(get_geometrize_executable_path())
 

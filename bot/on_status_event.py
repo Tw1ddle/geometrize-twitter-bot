@@ -1,15 +1,19 @@
 ## @package on_status_event
 #  Module containing the code that the bot runs when it receives a status event.
-#  This is where most of the work is set in motion e.g. the bot receives a Tweet, it parses the tweet, and figures out how to respond.
+#  This is where most of the work is triggered e.g. the bot receives a Tweet, it parses the tweet, and figures out how to respond.
 
 import re
 import uuid
 
 from io import BytesIO
 
+import requests
+
 from PIL import Image
 from PIL import ImageFile
 
+import config
+import dependency_locator
 import geometrize
 import tweet_parser
 
@@ -44,42 +48,56 @@ def _download_and_save_image(url, filepath):
     image = Image.open(BytesIO(request.content))
     return save_image(image, filepath)
 
-## Geometrizes and saves an image.
-def _geometrize_and_save_image(options):
-    print("Will geometrize and save image")
-
-    # Options should implicitly contain the input and output file paths
-    result = geometrize.geometrize(options)
-
-    return False
-
 ## Tweets an image.
 def _tweet_image(image_filepath, username, status_id, api):
     print("Will load and tweet image")
 
-    api.update_with_media(result_filepath, status = '@{0}'.format(username), in_reply_to_status_id = status_id)
+    message = '@{0}'.format(username)
+
+    # Do not @ yourself when tweeting images to avoid infinite tweet loop
+    if username == config.TWITTER_BOT_USERNAME:
+        message = ""
+
+    api.update_with_media(image_filepath, status = message, in_reply_to_status_id = status_id)
+
+## Tweets a simple message.
+def _tweet_message(message, username, status_id, api):
+    print("Will send tweet message: " + message + " to " + username)
+    api.update_status(status = '@{0} {1}'.format(username, message), in_reply_to_status_id = status_id)
 
 ## Handles a status change event from the Twitter streaming API.
 ## In practice, this means waiting for a status update and responding to it.
 def on_status_event(api, status):
+    username = status.user.screen_name
+    status_id = status.id
     message = status.text
     
     ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-    if re.search('status', message, re.IGNORECASE):
-        print("Received bot status request")
+    code = dependency_locator.read_geometrize_script("geometrize_shape_choice_template.chai")
+    if code == "":
+        print("Failed to read script")
         return
 
-    username = status.user.screen_name
-    status_id = status.id
+    if re.search('Print Geometrize bot status', message, re.IGNORECASE):
+        print("Received bot status request")
+        _tweet_message('Geometrize bot status is good', username, status_id, api) # TODO should tweet some meaningful info
+        return
+
     if 'media' in status.entities:
         for image in status.entities['media']:
-            download_filepath = 'temp_' + uuid.uuid4() + '.jpg'
-            result_filepath = 'geometrized_' + download_filepath
+            download_filename = 'temp_' + uuid.uuid4().hex + '.jpg'
+            download_filepath = dependency_locator.get_geometrize_image_file_absolute_path(download_filename)
+            result_filepath = dependency_locator.get_geometrize_image_file_absolute_path('geometrized_' + download_filename)
+            
+            geometrize_options = tweet_parser.parse_tweet_for_options(message)
+            geometrize_options["::IMAGE_INPUT_PATH::"] = download_filepath
+            geometrize_options["::IMAGE_OUTPUT_PATH::"] = result_filepath
+
             if(_download_and_save_image(image['media_url'], download_filepath)):
-                if(_geometrize_and_save_image(result_filepath)):
-                    tweet_image(result_filepath, username, status_id, api)
+                if(geometrize.run_geometrize(code, geometrize_options)):
+                    _tweet_image(result_filepath, username, status_id, api)
                 else:
-                    print("Failed to geometrize and save image to: " + result_filepath)
+                    print("Failed to run geometrize")
             else:
                 print("Failed to download and save tweet image to: " + download_filepath)

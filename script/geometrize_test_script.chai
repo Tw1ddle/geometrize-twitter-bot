@@ -1,5 +1,3 @@
-messageBox("This is a ChaiScript script test...!");
-
 var inputPath = "::IMAGE_INPUT_PATH::";
 var outputPath = "::IMAGE_OUTPUT_PATH::";
 var stepCount = 100;

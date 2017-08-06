@@ -11,7 +11,7 @@ import script_wrangler
 
 ## Executes the given script source code.
 ## :return The Geometrize process return code, 0 indicates success.
-def _run_geometrize_script(code):
+def _run_geometrize_code(code):
     executable_path = dependency_locator.get_geometrize_executable_path()
     script_inline_flag = "--script_inline"
     return call([executable_path, script_inline_flag, code])
@@ -30,8 +30,28 @@ def _load_image(filepath):
         print("Failed to load image")
     return image
 
+## Executes the given script source code.
+## :return True if the script executed successfully, else false.
+def run_geometrize(code, tags = None):
+    if tags is not None:
+        code = script_wrangler.replace_tags(code, tags)
+
+    if(script_wrangler.code_contains_tags(code)):
+        print("Script has template tags that have not been replaced, will fail rather than run script")
+        return False
+
+    print("Will run script")
+    print(code)
+    ret_code = _run_geometrize_code(code)
+
+    if ret_code != 0:
+        print("Failed to execute test script")
+        return False
+
+    return True
+
 ## Performs some basic tests to ensure that Geometrize can run scripts and turn images into shapes properly.
-## :return True if the tests succeeded, else false.
+## :return True if the tests executed successfully, else false.
 def test_geometrize():
     print("Loading test script")
     code = dependency_locator.read_geometrize_script("geometrize_test_script.chai")
@@ -39,11 +59,11 @@ def test_geometrize():
         print("Failed to read test script, test will fail")
         return False
 
-    image_in = _compose_image_path("test_image_in.png")
-    image_out = _compose_image_path("test_image_out.png")
+    image_input_path = _compose_image_path("test_image_in.png")
+    image_output_path = _compose_image_path("test_image_out.png")
 
     print("Loading input image")
-    input_image = _load_image(image_in)
+    input_image = _load_image(image_input_path)
     if input_image is None:
         print("Failed to read the input image, test script will fail")
         return False
@@ -52,15 +72,18 @@ def test_geometrize():
 
     # Note that the backslashes in image paths need to be escaped, or just use forward slashes.
     # This is because we are putting them into string literals in the scripts.
-    code = script_wrangler.replace_tag(code, "::IMAGE_INPUT_PATH::", image_in)
-    code = script_wrangler.replace_tag(code, "::IMAGE_OUTPUT_PATH::", image_out)
+    code = script_wrangler.replace_tag(code, "::IMAGE_INPUT_PATH::", image_input_path)
+    code = script_wrangler.replace_tag(code, "::IMAGE_OUTPUT_PATH::", image_output_path)
 
-    if(script_wrangler.find_tags(code) != set()):
-        print("Failed to replace all template tags in script, test script will fail")
+    if(script_wrangler.code_contains_tags(code)):
+        print("Failed to replace all template tags in script, script will fail")
         return False
 
-    print("Running test script")
-    ret_code = _run_geometrize_script(code)
+    if(script_wrangler.code_contains_tags(code)):
+        print("Failed to replace all template tags in script, script will fail")
+        return False
+    
+    ret_code = _run_geometrize_code(code)
 
     if ret_code != 0:
         print("Failed to execute test script")
@@ -68,8 +91,8 @@ def test_geometrize():
 
     print("Checking if the test script saved the result image correctly")
 
-    result_image = _load_image(image_out)
-    if result_image is None:
+    output_image = _load_image(image_output_path)
+    if output_image is None:
         print("Failed to read the resulting geometrized image, test script will fail")
         return False
 
@@ -77,6 +100,6 @@ def test_geometrize():
     image_console_printer.print_image_to_console(input_image)
 
     print("Printing test results to console\r\n")
-    image_console_printer.print_image_to_console(result_image)
+    image_console_printer.print_image_to_console(output_image)
 
     return True

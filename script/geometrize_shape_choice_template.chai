@@ -1,8 +1,6 @@
-// This script loads up an image, creates an image job, applies preferences
-// It then adds the given number of shapes of each type, and writes the resulting image at the given file path
-
-var inputPath = ::IMAGE_INPUT_PATH::;
-var outputPath = ::IMAGE_OUTPUT_PATH::;
+var inputPath = "::IMAGE_INPUT_PATH::";
+var outputPath = "::IMAGE_OUTPUT_PATH::";
+var stepCount = 100;
 
 // Load up an image file
 var image = loadImage(inputPath);
@@ -19,9 +17,9 @@ var bitmap = createBitmap(image);
 // Note we use a synchronous job for simplicity/convenience
 var job = SynchronousImageJob(bitmap);
 
-// Step the image job, adding the shapes in the order specified by the injected code
-for (var i = 0; i < 50; ++i) {
-    job.stepModel(); // TODO should step for the given number of times for each shape type requested, in the given order too
+// Step the image job
+for (var i = 0; i < stepCount; ++i) {
+    job.stepModel();
 }
 
 // Exports the current bitmap to the output path

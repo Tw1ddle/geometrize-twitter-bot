@@ -92,7 +92,7 @@ def on_status_event(api, status):
             geometrize_options = {}
             geometrize_options["::IMAGE_INPUT_PATH::"] = download_filepath
             geometrize_options["::IMAGE_OUTPUT_PATH::"] = result_filepath
-            geometrize_options["::IMAGE_JOB_STEP_LOOPS::"] = tweet_parser.parse_tweet_for_shape_script(message)
+            geometrize_options["::IMAGE_JOB_STEP_LOOPS::"] = tweet_parser.make_code_for_shape_tweet(message)
 
             if(_download_and_save_image(image['media_url'], download_filepath)):
                 if(geometrize.run_geometrize(code, geometrize_options)):

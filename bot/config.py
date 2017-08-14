@@ -20,6 +20,8 @@ def validate_credentials():
 ## Twitter username of the account that will run the Geometrize bot.
 TWITTER_BOT_USERNAME = "@Geometrizer" # The official bot by https://twitter.com/Sam_Twidale - it lives here: https://twitter.com/Geometrizer
 
-## Twitter usernames of accounts that the Geometrize bot will watch for new tweets.
+## Twitter user ids of accounts that the Geometrize bot will watch for new tweets.
 ## When a tweet contains images, Geometrize will geometrize the images and tweet them out.
-TWITTER_BOT_WATCH_ACCOUNTS = ["@PexelsPhotos", "@cc0_landscapes", "@unsplash"]
+## Note you can get look up account ids easily using various sites online
+##                            "@PexelsPhotos", "@cc0_landscapes",    "@unsplash"
+TWITTER_BOT_WATCH_ACCOUNTS = ['2420838708',    '748738721390792710', '1520228526']

@@ -11,6 +11,7 @@ import geometrize
 import geometrize_bot
 import launch_text
 import on_status_event
+import tweepy
 
 # Print welcome text.
 launch_text.print_launch_text()
@@ -33,6 +34,11 @@ else:
     print("Geometrize startup tests failed. Please report an issue here: https://github.com/Tw1ddle/geometrize-twitter-bot \r\n")
     sys.exit(3)
 
+# Connect to Twitter.
+tweepy_auth = tweepy.OAuthHandler(config.OAUTH_CONSUMER_KEY, config.OAUTH_CONSUMER_SECRET)
+tweepy_auth.set_access_token(config.OAUTH_ACCESS_TOKEN, config.OAUTH_ACCESS_SECRET)
+tweepy_api = tweepy.API(tweepy_auth)
+
 ## Callback triggered when the stream listener connects.
 def on_connect(api):
     print("Twitter stream listener did connect")
@@ -52,16 +58,34 @@ def on_status(api, status):
     print("Received Twitter stream listener status event")
     on_status_event.on_status_event(api, status)
 
-# Create and set up the Geometrize bot, using credentials defined in the config file.
-bot = geometrize_bot.GeometrizeBot(
-    config.OAUTH_CONSUMER_KEY,
-    config.OAUTH_CONSUMER_SECRET,
-    config.OAUTH_ACCESS_TOKEN,
-    config.OAUTH_ACCESS_SECRET,
-    config.TWITTER_BOT_USERNAME,
+## Callback triggered when setting up the stream filter for tracking the Geometrize bot account.
+def on_on_demand_filter_setup(stream):
+    print("Setting up on demand tweet filter...")
+    stream.filter(track = [config.TWITTER_BOT_USERNAME], async = True)
+
+## Callback triggered when setting up the stream filter for tracking specific Twitter accounts.
+def on_account_watcher_filter_setup(stream):
+    print("Setting up account watcher tweet filter...")
+    stream.filter(follow = config.TWITTER_BOT_WATCH_ACCOUNTS, async = True)
+
+# Create and set up the on-demand Geometrize bot.
+# This bot waits for users to tweet images at the bot, which it then geometrizes.
+on_demand_bot = geometrize_bot.GeometrizeBot(
+    tweepy_auth,
+    tweepy_api,
     on_connect,
     on_timeout,
     on_error,
-    on_status)
+    on_status,
+    on_on_demand_filter_setup)
 
-print("Did create Geometrize bot")
+# Create and set up the specific account watcher bot.
+# This bot watches specific accounts and geometrizes images they tweet.
+account_watcher_bot = geometrize_bot.GeometrizeBot(
+    tweepy_auth,
+    tweepy_api,
+    on_connect,
+    on_timeout,
+    on_error,
+    on_status,
+    on_account_watcher_filter_setup)

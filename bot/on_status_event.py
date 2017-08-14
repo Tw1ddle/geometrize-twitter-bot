@@ -47,7 +47,12 @@ def _download_image(url):
 ## Tweets an image.
 def _tweet_image(image_filepath, message, status_id, api):
     print("Will tweet image")
-    api.update_with_media(image_filepath, status = message, in_reply_to_status_id = status_id)
+
+    # Truncate the message
+    max_len = 110
+    trimmed_message = message[:max_len] + (message[max_len:] and '...')
+
+    api.update_with_media(image_filepath, status = trimmed_message, in_reply_to_status_id = status_id)
 
 ## Tweets a simple message.
 def _tweet_message(message, username, status_id, api):
@@ -97,9 +102,14 @@ def on_status_event(api, status):
                 print("Failed to run geometrize")
                 continue
 
-            # Do not tweet @yourself when tweeting images - avoids an infinite tweet loop
+            
             at_username = '@{0}'.format(username)
+
+            # Do not tweet @yourself when tweeting images - avoids an infinite tweet loop
             if at_username != config.TWITTER_BOT_USERNAME:
-                _tweet_image(result_filepath, at_username, status_id, api)
+                _tweet_image(result_filepath, at_username + " Geometrize has geometrized your image...", status_id, api)
+            elif at_username in config.TWITTER_BOT_WATCH_ACCOUNTS:
+                _tweet_image(result_filepath, "", None, api)
             else:
                 _tweet_image(result_filepath, "", None, api)
+            print("Did tweet image")

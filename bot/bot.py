@@ -53,10 +53,15 @@ def on_error(api, code):
     print("Encountered Twitter error response: %s" % code)
     return True
 
-## Callback triggered when the stream listener reports a status event.
-def on_status(api, status):
+## Callback triggered when the stream listener for the Geometrize bot account reports a status event.
+def on_on_demand_status_event(api, status):
     print("Received Twitter stream listener status event")
-    on_status_event.on_status_event(api, status)
+    on_status_event.on_on_demand_status_event(api, status)
+
+## Callback triggered when the stream listener for tracking specific Twitter accounts reports a status event.
+def on_account_watcher_status_event(api, status):
+    print("Received Twitter stream listener status event")
+    on_status_event.on_account_watcher_status_event(api, status)
 
 ## Callback triggered when setting up the stream filter for tracking the Geometrize bot account.
 def on_on_demand_filter_setup(stream):
@@ -76,7 +81,7 @@ on_demand_bot = geometrize_bot.GeometrizeBot(
     on_connect,
     on_timeout,
     on_error,
-    on_status,
+    on_on_demand_status_event,
     on_on_demand_filter_setup)
 
 # Create and set up the specific account watcher bot.
@@ -87,5 +92,5 @@ account_watcher_bot = geometrize_bot.GeometrizeBot(
     on_connect,
     on_timeout,
     on_error,
-    on_status,
+    on_account_watcher_status_event,
     on_account_watcher_filter_setup)

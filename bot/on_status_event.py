@@ -110,8 +110,7 @@ def on_on_demand_status_event(api, status):
             # Do not tweet @yourself when tweeting images - avoids an infinite tweet loop
             if at_username != config.TWITTER_BOT_USERNAME:
                 _tweet_image(result_filepath, at_username + " Geometrize has geometrized your image...", status_id, api)
-            else:
-                _tweet_image(result_filepath, "", None, api)
+
             print("Did tweet image")
 
 ## Handles a status change event from the Twitter streaming API.

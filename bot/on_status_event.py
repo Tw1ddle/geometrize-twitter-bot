@@ -80,7 +80,7 @@ def on_status_event(api, status):
             result_filepath = dependency_locator.get_geometrize_image_file_absolute_path('geometrized_' + download_filename)
             
             image_data = _download_image(image['media_url'])
-            if image_data is None
+            if image_data is None:
                 print("Failed to download tweet image")
                 continue
 
@@ -97,8 +97,9 @@ def on_status_event(api, status):
                 print("Failed to run geometrize")
                 continue
 
-            # Do not reply to yourself when tweeting images - avoids an infinite tweet loop
-            if username != config.TWITTER_BOT_USERNAME:
-                _tweet_image(result_filepath, '@{0}'.format(username), status_id, api)
+            # Do not tweet @yourself when tweeting images - avoids an infinite tweet loop
+            at_username = '@{0}'.format(username)
+            if at_username != config.TWITTER_BOT_USERNAME:
+                _tweet_image(result_filepath, at_username, status_id, api)
             else:
                 _tweet_image(result_filepath, "", None, api)

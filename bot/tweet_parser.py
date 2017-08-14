@@ -1,5 +1,5 @@
 ## @package tweet_parser
-#  This module contains code that reads tweet text sent to the bot and figures out how the bot should respond.
+#  This module contains code that reads tweet messages and figures out how the bot should handle them.
 
 import random
 import re
@@ -95,17 +95,16 @@ def _make_specific_shapes_code(dict, message):
 
     return code
 
-## Parses the given tweet, returning the ChaiScript code for Geometrize to run based on what the tweet requests.
-## The message should be structured as followed "@BotName shapeType1=shapeQuantity1 shapeTypeN=shapeQuantityN."
+## Parses the given tweet, returning the ChaiScript code for Geometrize to run based on the contents of the tweet.
 ## The shapes are added in the order they are specified in the message.
+## Message examples: "@Geometrizer triangles=30 and rectangles=20, thanks bot!" - produces an image with 30 triangles, then 20 rectangles.
+## Or: "@Geometrizer triangles=30 circles=500, triangles=20, nice bot!" - produces an image with 30 triangles, 500 circles (clamped to max), 20 triangles.
+## Or: "@Geometrizer tris=300 circs=200" - produces an image with 300 triangles, 200 circles.
+## Or: "@Geometrize rotated_rects=500" - produces an image with 500 rotated rectangles.
+## Or: "@Geometrizer tris circ rects lines beziers" - produces an image with a random number of these shapes.
+## Or: "@Geometrizer this is a really cool bot!" - produces an image with a random selection and quantity of shapes.
 ## :return A chunk of ChaiScript code that adds the shapes that the tweet requests (must be combined with a larger script to work).
 def make_code_for_shape_tweet(message):
-    # Message examples: "@Geometrizer triangles=30 and rectangles=20, thanks bot!" - produces an image with 30 triangles, then 20 rectangles.
-    # Or: "@Geometrizer triangles=30 circles=500, triangles=20, nice bot!" - produces an image with 30 triangles, 500 circles (clamped to max), 20 triangles.
-    # Or: "@Geometrizer tris=300 circs=200" - produces an image with 300 triangles, 200 circles.
-    # Or: "@Geometrize rotated_rects=500" - produces an image with 500 rotated rectangles.
-    # Or: "@Geometrizer tris circ rects lines beziers" - produces an image with a random number of these shapes.
-    # Or: "@Geometrizer this is a really cool bot!" - produces an image with a random selection and quantity of shapes.
 
     dict = _make_shape_type_dictionary()
 

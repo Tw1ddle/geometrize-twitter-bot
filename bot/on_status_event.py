@@ -34,29 +34,19 @@ def save_image(image, filepath):
         return False
     return True
 
-## Downloads and saves an image taken from a tweet.
-def _download_and_save_image(url, filepath):
-    print("Will download and save image")
-
+## Downloads an image from a tweet.
+## Returns the request content if it succeeds, else None.
+def _download_image(url):
+    print("Will download image")
     request = requests.get(url, stream = True)
-    
     if request.status_code != 200:
         print("Failed to download image, got status code: " + request.status_code)
-        return False
-
-    image = Image.open(BytesIO(request.content))
-    return save_image(image, filepath)
+        return None
+    return request.content
 
 ## Tweets an image.
-def _tweet_image(image_filepath, username, status_id, api):
-    print("Will load and tweet image")
-
-    message = '@{0}'.format(username)
-
-    # Do not @ yourself when tweeting images to avoid infinite tweet loop
-    if username == config.TWITTER_BOT_USERNAME:
-        message = ""
-
+def _tweet_image(image_filepath, message, status_id, api):
+    print("Will tweet image")
     api.update_with_media(image_filepath, status = message, in_reply_to_status_id = status_id)
 
 ## Tweets a simple message.
@@ -65,7 +55,7 @@ def _tweet_message(message, username, status_id, api):
     api.update_status(status = '@{0} {1}'.format(username, message), in_reply_to_status_id = status_id)
 
 ## Handles a status change event from the Twitter streaming API.
-## In practice, this means waiting for a status update and responding to it.
+## This means waiting for status updates and doing things to response to them.
 def on_status_event(api, status):
     username = status.user.screen_name
     status_id = status.id
@@ -80,7 +70,7 @@ def on_status_event(api, status):
 
     if re.search('Print Geometrize bot status', message, re.IGNORECASE):
         print("Received bot status request")
-        _tweet_message('Geometrize bot status is good', username, status_id, api) # TODO should tweet some meaningful info
+        _tweet_message('Geometrize bot status is alive', username, status_id, api)
         return
 
     if 'media' in status.entities:
@@ -89,15 +79,26 @@ def on_status_event(api, status):
             download_filepath = dependency_locator.get_geometrize_image_file_absolute_path(download_filename)
             result_filepath = dependency_locator.get_geometrize_image_file_absolute_path('geometrized_' + download_filename)
             
+            image_data = _download_image(image['media_url'])
+            if image_data is None
+                print("Failed to download tweet image")
+                continue
+
+            image = Image.open(BytesIO(image_data))
+            if not save_image(image, download_filepath):
+                print("Failed to save image to filepath " + download_filepath)
+                continue
+
             geometrize_options = {}
             geometrize_options["::IMAGE_INPUT_PATH::"] = download_filepath
             geometrize_options["::IMAGE_OUTPUT_PATH::"] = result_filepath
             geometrize_options["::IMAGE_JOB_STEP_LOOPS::"] = tweet_parser.make_code_for_shape_tweet(message)
+            if not geometrize.run_geometrize(code, geometrize_options):
+                print("Failed to run geometrize")
+                continue
 
-            if(_download_and_save_image(image['media_url'], download_filepath)):
-                if(geometrize.run_geometrize(code, geometrize_options)):
-                    _tweet_image(result_filepath, username, status_id, api)
-                else:
-                    print("Failed to run geometrize")
+            # Do not reply to yourself when tweeting images - avoids an infinite tweet loop
+            if username != config.TWITTER_BOT_USERNAME:
+                _tweet_image(result_filepath, '@{0}'.format(username), status_id, api)
             else:
-                print("Failed to download and save tweet image to: " + download_filepath)
+                _tweet_image(result_filepath, "", None, api)

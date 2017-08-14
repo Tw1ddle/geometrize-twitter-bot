@@ -1,7 +1,7 @@
 ## @package bot
 #  Module that sets up the Geometrize Twitter bot.
 #
-#  Invoke this script to run the bot e.g. "python bot.py".
+#  Invoke this script to run the bot i.e. "python bot.py".
 
 import sys
 
@@ -63,3 +63,5 @@ bot = geometrize_bot.GeometrizeBot(
     on_timeout,
     on_error,
     on_status)
+
+print("Did create Geometrize bot")

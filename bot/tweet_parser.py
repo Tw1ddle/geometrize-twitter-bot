@@ -1,5 +1,5 @@
 ## @package tweet_parser
-#  This module contains code that reads tweet messages and figures out how the bot should handle them.
+#  This module contains code that reads tweet text and figures out how the bot should do in response.
 
 import random
 import re
@@ -37,6 +37,26 @@ def _make_shape_type_dictionary():
     _add_shape_type_for_keywords(dict, _polyline_keywords, "POLYLINE")
     return dict
 
+def _add_max_quantity_for_shape_type(dict, shape_type, quantity):
+    dict[shape_type] = quantity
+
+def _make_max_shape_quantity_dictionary():
+    dict = {}
+    _add_max_quantity_for_shape_type(dict, "RECTANGLE", 500)
+    _add_max_quantity_for_shape_type(dict, "ROTATED_RECTANGLE", 750)
+    _add_max_quantity_for_shape_type(dict, "TRIANGLE", 750)
+    _add_max_quantity_for_shape_type(dict, "ELLIPSE", 750)
+    _add_max_quantity_for_shape_type(dict, "ROTATED_ELLIPSE", 750)
+    _add_max_quantity_for_shape_type(dict, "CIRCLE", 750)
+    _add_max_quantity_for_shape_type(dict, "LINE", 4000)
+    _add_max_quantity_for_shape_type(dict, "QUADRATIC_BEZIER", 4000)
+    _add_max_quantity_for_shape_type(dict, "POLYLINE", 4000)
+    return dict
+
+def _max_quantity_for_shape_type(shape_type):
+    dict = _make_max_shape_quantity_dictionary()
+    return dict[shape_type]
+
 def _make_loop_body(shape_type):
     return "var prefs = task.getPreferences(); prefs.setShapeTypes(" + shape_type + "); task.setPreferences(prefs); task.stepModel();"
 
@@ -67,10 +87,15 @@ def _make_specific_shape_quantity_code(dict, message):
 
         shape_type = dict[shape_type_key]
         shape_count = int(pair[1].strip())
+        shape_count_max = _max_quantity_for_shape_type(shape_type)
 
         if shape_count <= 0:
             print("Got bad shape count request, must be positive")
             continue
+
+        if shape_count >= shape_count_max:
+            print("Requested shape count was too high, clamping it down")
+            shape_count = shape_count_max
 
         code += _make_for_loop(shape_count, shape_type)
 
@@ -98,7 +123,7 @@ def _make_specific_shapes_code(dict, message):
 ## Parses the given tweet, returning the ChaiScript code for Geometrize to run based on the contents of the tweet.
 ## The shapes are added in the order they are specified in the message.
 ## Message examples: "@Geometrizer triangles=30 and rectangles=20, thanks bot!" - produces an image with 30 triangles, then 20 rectangles.
-## Or: "@Geometrizer triangles=30 circles=500, triangles=20, nice bot!" - produces an image with 30 triangles, 500 circles (clamped to max), 20 triangles.
+## Or: "@Geometrizer triangles=30 circles=500, triangles=20, nice bot!" - produces an image with 30 triangles, 500 circles, 20 triangles.
 ## Or: "@Geometrizer tris=300 circs=200" - produces an image with 300 triangles, 200 circles.
 ## Or: "@Geometrize rotated_rects=500" - produces an image with 500 rotated rectangles.
 ## Or: "@Geometrizer tris circ rects lines beziers" - produces an image with a random number of these shapes.

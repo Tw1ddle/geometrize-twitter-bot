@@ -97,7 +97,11 @@ def on_on_demand_status_event(api, status):
             geometrize_options = {}
             geometrize_options["::IMAGE_INPUT_PATH::"] = download_filepath
             geometrize_options["::IMAGE_OUTPUT_PATH::"] = result_filepath
-            geometrize_options["::IMAGE_TASK_STEP_LOOPS::"] = tweet_parser.make_code_for_shape_tweet(message)
+
+            shape_code, shape_quantity_dictionary = tweet_parser.make_code_for_shape_tweet(message)
+            response_text = tweet_parser.make_message_for_shape_dictionary(shape_quantity_dictionary)
+            geometrize_options["::IMAGE_TASK_STEP_LOOPS::"] = shape_code
+
             if not geometrize.run_geometrize(code, geometrize_options):
                 print("Failed to run geometrize")
                 continue
@@ -109,7 +113,7 @@ def on_on_demand_status_event(api, status):
 
             # Do not tweet @yourself when tweeting images - avoids an infinite tweet loop
             if at_username != config.TWITTER_BOT_USERNAME:
-                _tweet_image(result_filepath, at_username + " Geometrize has geometrized your image...", status_id, api)
+                _tweet_image(result_filepath, at_username + " " + response_text, status_id, api)
 
             print("Did tweet image")
 
@@ -151,12 +155,16 @@ def on_account_watcher_status_event(api, status):
             geometrize_options = {}
             geometrize_options["::IMAGE_INPUT_PATH::"] = download_filepath
             geometrize_options["::IMAGE_OUTPUT_PATH::"] = result_filepath
-            geometrize_options["::IMAGE_TASK_STEP_LOOPS::"] = tweet_parser.make_code_for_shape_tweet(message)
+            
+            shape_code, shape_quantity_dictionary = tweet_parser.make_code_for_shape_tweet(message)
+            response_text = tweet_parser.make_message_for_shape_dictionary(shape_quantity_dictionary)
+            geometrize_options["::IMAGE_TASK_STEP_LOOPS::"] = shape_code
+
             if not geometrize.run_geometrize(code, geometrize_options):
                 print("Failed to run geometrize")
                 continue
 
             at_username = '@{0}'.format(username)
 
-            _tweet_image(result_filepath, "", None, api)
+            _tweet_image(result_filepath, response_text, None, api)
             print("Did tweet image")

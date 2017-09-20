@@ -58,8 +58,38 @@ def _max_quantity_for_shape_type(shape_type):
 
     return dict[shape_type]
 
+## Gets a human-readable name for the given shape type
+def _plural_name_for_shape_type(shape_type):
+    dict = {}
+    dict["RECTANGLE"] = "Rectangles"
+    dict["ROTATED_RECTANGLE"] = "Rotated Rectangles"
+    dict["TRIANGLE"] = "Triangles"
+    dict["ELLIPSE"] = "Ellipses"
+    dict["ROTATED_ELLIPSE"] = "Rotated Ellipses"
+    dict["CIRCLE"] = "Circles"
+    dict["LINE"] = "Lines"
+    dict["QUADRATIC_BEZIER"] = "Beziers"
+    dict["POLYLINE"] = "Polylines"
+
+    return dict[shape_type]
+
+## Helper for constructing a ChaiScript script for geometrizing shapes
+def _make_loop_body(shape_type):
+    return "var prefs = task.getPreferences(); prefs.setShapeTypes(" + shape_type + "); task.setPreferences(prefs); task.stepModel();"
+
+## Helper for constructing a ChaiScript script for geometrizing shapes
+def _make_for_loop(step_count, shape_type):
+    return "for(var i = 0; i < " + str(step_count) + "; ++i) { " + _make_loop_body(shape_type) + " }";
+
+## Helper for constructing a ChaiScript script for geometrizing shapes
+def _make_shape_code(dict):
+    code = ""
+    for key, value in dict.items():
+        code += _make_for_loop(value, key)
+    return code
+
 ## Parses a tweet message and returns a dictionary of the shape types and quantities that were requested
-def _make_shape_quantity_dictionary(message):
+def make_shape_quantity_dictionary(message):
     symbols = message.split(" ")
     shape_keyword_dictionary = _make_shape_keyword_dictionary()
     shape_quantity_dictionary = {}
@@ -93,21 +123,6 @@ def _make_shape_quantity_dictionary(message):
 
     return shape_quantity_dictionary
 
-## Helper for constructing a ChaiScript script for geometrizing shapes
-def _make_loop_body(shape_type):
-    return "var prefs = task.getPreferences(); prefs.setShapeTypes(" + shape_type + "); task.setPreferences(prefs); task.stepModel();"
-
-## Helper for constructing a ChaiScript script for geometrizing shapes
-def _make_for_loop(step_count, shape_type):
-    return "for(var i = 0; i < " + str(step_count) + "; ++i) { " + _make_loop_body(shape_type) + " }";
-
-## Helper for constructing a ChaiScript script for geometrizing shapes
-def _make_shape_code(dict):
-    code = ""
-    for key, value in dict.items():
-        code += _make_for_loop(value, key)
-    return code
-
 ## Parses the given tweet, returning the ChaiScript code for Geometrize to run based on the contents of the tweet.
 ## The shapes are added in the order they are specified in the message.
 ## Message examples: "@Geometrizer triangles=30 and rectangles=20, thanks bot!" - produces an image with 30 triangles, then 20 rectangles.
@@ -118,12 +133,12 @@ def _make_shape_code(dict):
 ## :return A chunk of ChaiScript code that adds the shapes that the tweet requests (must be combined with a larger script to work).
 def make_code_for_shape_tweet(message):
 
-    shape_quantity_dictionary = _make_shape_quantity_dictionary(message)
+    shape_quantity_dictionary = make_shape_quantity_dictionary(message)
     if shape_quantity_dictionary:
         # Try to match shapeTypeN=shapeQuantityN patterns
         code = _make_shape_code(shape_quantity_dictionary)
         print("Creating specific shapes and quantities code for tweet")
-        return code
+        return code, shape_quantity_dictionary
 
     # Failed, so use a random shape type instead
     print("Creating random shapes code for tweet")
@@ -133,4 +148,20 @@ def make_code_for_shape_tweet(message):
     shape_type = random.choice(shape_types)
     shape_quantity = random.randint(200, 500)
     shape_quantity_dictionary[shape_type] = shape_quantity
-    return _make_shape_code(shape_quantity_dictionary)
+    code = _make_shape_code(shape_quantity_dictionary)
+
+    return code, shape_quantity_dictionary
+
+## Creates a message for the given shape dictionary, suitable for tweeting along with the result of running the script.
+## For example [ "ROTATED_RECTANGLES" => 250 ], "250 Rotated Rectangles"
+## :return A message describing the shapes and quantities.
+def make_message_for_shape_dictionary(shape_quantity_dictionary):
+    message = "Geometrized - "
+
+    for shape, quantity in shape_quantity_dictionary.items():
+        message += str(quantity)
+        message += " "
+        message += _plural_name_for_shape_type(shape)
+        message += " "
+
+    return message

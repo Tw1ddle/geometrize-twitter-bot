@@ -40,7 +40,7 @@ Fill in the Twitter app credentials in [config.py](https://github.com/Tw1ddle/ge
 python bot.py
 ```
 
-The bot should connect to the Twitter streaming API. Console output should look [like this](https://github.com/Tw1ddle/geometrize-twitter-bot/master/screenshots/forest.png).
+The bot should connect to the Twitter streaming API. Console output should look [like this](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/screenshots/successful_startup.png?raw=true).
 
 Tweet an image at the bot. After a few moments, the bot will tweet a geometrized version back at you.
 

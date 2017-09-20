@@ -21,7 +21,7 @@ Tweet an image at the [bot](https://twitter.com/Geometrizer) for a random result
 Or tweet the specific numbers of shapes you want the bot to use, in the order they should be added to the image:
 
 ```
-@Geometrizer 50 rotated ellipses, 50 circles, 50 rotated rectangles, 20 triangles. Thanks geometrize bot!
+@Geometrizer rotated_ellipses=50 circles=50 rotated_rectangles=100 triangles=30 - thanks Geometrize bot!
 ```
 
 ## Development

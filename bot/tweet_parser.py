@@ -14,17 +14,22 @@ _line_keywords = [ "line", "lines" ]
 _quadratic_bezier_keywords = [ "bezier", "beziers", "quadratic_bezier", "quadratic_beziers" ]
 _polyline_keywords = [ "polyline", "polylines" ]
 
+## Returns true if the given string represents an integer value
 def _represents_int(s):
     return re.match(r"[-+]?\d+$", s) is not None
 
+## Clamps the given number within the range smallest, largest
 def _clamp(n, smallest, largest):
     return max(smallest, min(n, largest))
 
-def _add_shape_type_for_keywords(dict, keywords, func):
-    for keyword in keywords:
-        dict[keyword] = func
+## Adds the given items to the given dictionary, mapping each keyword to the given shape name
+def _add_shape_type_for_keywords(dict, shape_keywords, shape_name):
+    for shape_keyword in shape_keywords:
+        dict[shape_keyword] = shape_name
 
-def _make_shape_type_dictionary():
+## Creates a dictionary mapping shape keywords to canonical shape names used by ChaiScript scripts
+## Provides a convenient way to map words in tweets like "rects" to the shape type "RECTANGLE"
+def _make_shape_keyword_dictionary():
     dict = {}
     _add_shape_type_for_keywords(dict, _rect_keywords, "RECTANGLE")
     _add_shape_type_for_keywords(dict, _rotated_rect_keywords, "ROTATED_RECTANGLE")
@@ -37,55 +42,42 @@ def _make_shape_type_dictionary():
     _add_shape_type_for_keywords(dict, _polyline_keywords, "POLYLINE")
     return dict
 
-def _add_max_quantity_for_shape_type(dict, shape_type, quantity):
-    dict[shape_type] = quantity
-
-def _make_max_shape_quantity_dictionary():
-    dict = {}
-    _add_max_quantity_for_shape_type(dict, "RECTANGLE", 500)
-    _add_max_quantity_for_shape_type(dict, "ROTATED_RECTANGLE", 750)
-    _add_max_quantity_for_shape_type(dict, "TRIANGLE", 750)
-    _add_max_quantity_for_shape_type(dict, "ELLIPSE", 750)
-    _add_max_quantity_for_shape_type(dict, "ROTATED_ELLIPSE", 750)
-    _add_max_quantity_for_shape_type(dict, "CIRCLE", 750)
-    _add_max_quantity_for_shape_type(dict, "LINE", 4000)
-    _add_max_quantity_for_shape_type(dict, "QUADRATIC_BEZIER", 4000)
-    _add_max_quantity_for_shape_type(dict, "POLYLINE", 4000)
-    return dict
-
+## Gets the maximum number of shapes allowed for the given shape type
+## This to to set a sensible limit on the length of time the bot will spend on a single image
 def _max_quantity_for_shape_type(shape_type):
-    dict = _make_max_shape_quantity_dictionary()
+    dict = {}
+    dict["RECTANGLE"] = 500
+    dict["ROTATED_RECTANGLE"] = 750
+    dict["TRIANGLE"] = 750
+    dict["ELLIPSE"] = 750
+    dict["ROTATED_ELLIPSE"] = 750
+    dict["CIRCLE"] = 750
+    dict["LINE"] = 4000
+    dict["QUADRATIC_BEZIER"] = 4000
+    dict["POLYLINE"] = 4000
+
     return dict[shape_type]
 
-def _make_loop_body(shape_type):
-    return "var prefs = task.getPreferences(); prefs.setShapeTypes(" + shape_type + "); task.setPreferences(prefs); task.stepModel();"
-
-def _make_for_loop(step_count, shape_type):
-    return "for(var i = 0; i < " + str(step_count) + "; ++i) { " + _make_loop_body(shape_type) + " }";
-
-def _make_random_shapes_code(dict):
-    return _make_for_loop(random.randint(300, 500), dict[random.choice(list(dict.keys()))])
-
-def _make_specific_shape_quantity_code(dict, message):
-    code = ""
-
+## Parses a tweet message and returns a dictionary of the shape types and quantities that were requested
+def _make_shape_quantity_dictionary(message):
     symbols = message.split(" ")
+    shape_keyword_dictionary = _make_shape_keyword_dictionary()
+    shape_quantity_dictionary = {}
 
     for symbol in symbols:
-
         pair = symbol.split("=")
 
         if len(pair) != 2:
             continue
 
         shape_type_key = pair[0].strip()
-        if shape_type_key not in dict:
+        if shape_type_key not in shape_keyword_dictionary:
             continue
 
         if not _represents_int(pair[1].strip()):
             continue
 
-        shape_type = dict[shape_type_key]
+        shape_type = shape_keyword_dictionary[shape_type_key]
         shape_count = int(pair[1].strip())
         shape_count_max = _max_quantity_for_shape_type(shape_type)
 
@@ -97,27 +89,23 @@ def _make_specific_shape_quantity_code(dict, message):
             print("Requested shape count was too high, clamping it down")
             shape_count = shape_count_max
 
-        code += _make_for_loop(shape_count, shape_type)
+        shape_quantity_dictionary[shape_type] = shape_count
 
-    return code
+    return shape_quantity_dictionary
 
-def _make_specific_shapes_code(dict, message):
+## Helper for constructing a ChaiScript script for geometrizing shapes
+def _make_loop_body(shape_type):
+    return "var prefs = task.getPreferences(); prefs.setShapeTypes(" + shape_type + "); task.setPreferences(prefs); task.stepModel();"
+
+## Helper for constructing a ChaiScript script for geometrizing shapes
+def _make_for_loop(step_count, shape_type):
+    return "for(var i = 0; i < " + str(step_count) + "; ++i) { " + _make_loop_body(shape_type) + " }";
+
+## Helper for constructing a ChaiScript script for geometrizing shapes
+def _make_shape_code(dict):
     code = ""
-
-    symbols = message.split(" ")
-
-    for symbol in symbols:
-        stripped_symbol = symbol.strip()
-        if stripped_symbol not in dict:
-            continue
-
-        if stripped_symbol not in dict:
-            continue
-
-        shape_type = dict[stripped_symbol]
-        shape_count = random.randint(100, 300)
-        code += _make_for_loop(shape_count, shape_type)
-
+    for key, value in dict.items():
+        code += _make_for_loop(value, key)
     return code
 
 ## Parses the given tweet, returning the ChaiScript code for Geometrize to run based on the contents of the tweet.
@@ -126,25 +114,23 @@ def _make_specific_shapes_code(dict, message):
 ## Or: "@Geometrizer triangles=30 circles=500, triangles=20, nice bot!" - produces an image with 30 triangles, 500 circles, 20 triangles.
 ## Or: "@Geometrizer tris=300 circs=200" - produces an image with 300 triangles, 200 circles.
 ## Or: "@Geometrize rotated_rects=500" - produces an image with 500 rotated rectangles.
-## Or: "@Geometrizer tris circ rects lines beziers" - produces an image with a random number of these shapes.
 ## Or: "@Geometrizer this is a really cool bot!" - produces an image with a random selection and quantity of shapes.
 ## :return A chunk of ChaiScript code that adds the shapes that the tweet requests (must be combined with a larger script to work).
 def make_code_for_shape_tweet(message):
 
-    dict = _make_shape_type_dictionary()
-
-    # Try to match shapeTypeN=shapeQuantityN patterns
-    code = _make_specific_shape_quantity_code(dict, message)
-    if code:
+    shape_quantity_dictionary = _make_shape_quantity_dictionary(message)
+    if shape_quantity_dictionary:
+        # Try to match shapeTypeN=shapeQuantityN patterns
+        code = _make_shape_code(shape_quantity_dictionary)
         print("Creating specific shapes and quantities code for tweet")
         return code
 
-    # Failed, try to match the standalone shapeType patterns
-    code = _make_specific_shapes_code(dict, message)
-    if code:
-        print("Creating specific shapes code for tweet")
-        return code
-    
-    # Failed, so use a random selection of shapes
+    # Failed, so use a random shape type instead
     print("Creating random shapes code for tweet")
-    return _make_random_shapes_code(dict)
+
+    # Use a subset of possible shapes since random numbers of others don't always look good
+    shape_types = ['ROTATED_RECTANGLE', 'ROTATED_ELLIPSE', 'TRIANGLE', 'CIRCLE', 'ELLIPSE']
+    shape_type = random.choice(shape_types)
+    shape_quantity = random.randint(200, 500)
+    shape_quantity_dictionary[shape_type] = shape_quantity
+    return _make_shape_code(shape_quantity_dictionary)

@@ -5,23 +5,23 @@
 [![AppVeyor Twitter Bot Build Status](https://ci.appveyor.com/api/projects/status/e9d5ghphfm3oa2au?svg=true)](https://ci.appveyor.com/project/Tw1ddle/geometrize-twitter-bot)
 [![Travis Twitter Bot Docs Build Status](https://img.shields.io/travis/Tw1ddle/geometrize-twitter-bot-docs.svg?style=flat-square)](https://travis-ci.org/Tw1ddle/geometrize-twitter-bot-docs)
 
-This is a [Twitter bot](https://twitter.com/Geometrizer) for [Geometrize](http://www.geometrize.co.uk/), a tool for geometrizing images into geometric primitives. It waits for images to be tweeted at it, geometrizes the images into shapes, and [posts the results 
+[Twitter bot](https://twitter.com/Geometrizer) for [Geometrize](http://www.geometrize.co.uk/), an app for geometrizing images into geometric primitives. The bot waits for images to be tweeted at it. It geometrizes images it receives into shapes, and [posts the results 
 on Twitter](https://twitter.com/Geometrizer).
 
-[![Geometrized Old Man of Storr](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/screenshots/old_man_of_storr.jpg?raw=true "Old Man of Storr, 400 triangles")](http://www.geometrize.co.uk/)
+[![Geometrized Forest](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/screenshots/forest.png?raw=true "Forest, 2000 circles")](http://www.geometrize.co.uk/)
 
 ## Usage
 
-Tweet an image at the [bot](https://twitter.com/Geometrizer):
+Tweet an image at the [bot](https://twitter.com/Geometrizer) for a random result:
 
 ```
-@Geometrizer Hi, cool geometrize bot!
+@Geometrizer Hi, geometrize bot!
 ```
 
-Or tweet the specific numbers of shapes you want the bot to use, in the order they will be added to the image:
+Or tweet the specific numbers of shapes you want the bot to use, in the order they should be added to the image:
 
 ```
-@Geometrizer 50 rectangles, 50 circles, 50 rotated rectangles, 20 triangles. Thanks geometrize bot!
+@Geometrizer 50 rotated ellipses, 50 circles, 50 rotated rectangles, 20 triangles. Thanks geometrize bot!
 ```
 
 ## Development
@@ -40,28 +40,7 @@ Fill in the Twitter app credentials in [config.py](https://github.com/Tw1ddle/ge
 python bot.py
 ```
 
-The bot should connect to the Twitter streaming API with the following console output:
-
-```
- ..|'''.|  '||''''|   ..|''||   '||    ||' '||''''|  |''||''| '||''|.   '||' |'''''||  '||''''|
-.|'     '   ||  .    .|'    ||   |||  |||   ||  .       ||     ||   ||   ||      .|'    ||  .
-||    ....  ||''|    ||      ||  |'|..'||   ||''|       ||     ||''|'    ||     ||      ||''|
-'|.    ||   ||       '|.     ||  | '|' ||   ||          ||     ||   |.   ||   .|'       ||
- ''|...'|  .||.....|  ''|...|'  .|. | .||. .||.....|   .||.   .||.  '|' .||. ||......| .||.....|
-
-+-+-+-+-+-+-+-+ +-+-+-+
-|T|W|I|T|T|E|R| |B|O|T|
-+-+-+-+-+-+-+-+ +-+-+-+
-
-Running test to ensure Geometrize is working correctly...
-Geometrize startup test succeeded!
-
-Will create Geometrize bot
-Will create Twitter stream listener
-Did create Twitter stream listener
-Did create Geometrize bot
-Twitter stream listener did connect
-```
+The bot should connect to the Twitter streaming API. Console output should look [like this](https://github.com/Tw1ddle/geometrize-twitter-bot/master/screenshots/forest.png).
 
 Tweet an image at the bot. After a few moments, the bot will tweet a geometrized version back at you.
 

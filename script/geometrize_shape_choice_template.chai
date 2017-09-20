@@ -8,18 +8,38 @@ if(image.isNull()) {
     return;
 }
 
+// Reduce the size to something that can be geometrized fairly quickly
+// This also keeps final file sizes manageable (should avoid hitting Twitter upload limits)
+var maxSize = 512;
+if(image.width() >= maxSize) {
+    image := image.scaledToWidth(maxSize, QtSmoothTransformation);
+}
+if(image.height() >= maxSize) {
+    image := image.scaledToHeight(maxSize, QtSmoothTransformation);
+}
+
+// Make sure the image is in RGBA8888 format
+image := convertImageToRgba8888(image);
+
 // Create a RGBA8888 bitmap from the image, that Geometrize can turn to shapes
 var bitmap = createBitmap(image);
 
-// Create an image job that aims to reproduce the bitmap as shapes
+// Create an image task that aims to reproduce the bitmap as shapes
 // This implicitly uses the average color of the bitmap as the starting background
-// Note we use a synchronous job for simplicity/convenience
-var job = SynchronousImageJob(bitmap);
+// Note we use a synchronous task for simplicity/convenience
+var task = SynchronousImageTask(bitmap);
 
-// Step the image job
-::IMAGE_JOB_STEP_LOOPS::
+// Add the initial background rectangle shape (we will export the shape data later)
+task.drawBackgroundRectangle();
 
-// Exports the current bitmap to the output path
-if(!exportBitmap(job.getCurrent(), outputPath)) {
+// Step the image task
+::IMAGE_TASK_STEP_LOOPS::
+
+// Exports the current shape data via SVG
+var current = task.getCurrent();
+var baseWidth = current.getWidth();
+var baseHeight = current.getHeight();
+var scaleFactor = 4;
+if(!exportRasterizedSvg(task.getShapes(), baseWidth, baseHeight, baseWidth * scaleFactor, baseHeight * scaleFactor, outputPath)) {
     messageBox("Failed to write image to: " + outputPath);
 }

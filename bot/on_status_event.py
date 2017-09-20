@@ -80,7 +80,7 @@ def on_on_demand_status_event(api, status):
 
     if 'media' in status.entities:
         for image in status.entities['media']:
-            download_filename = 'temp_' + uuid.uuid4().hex + '.jpg'
+            download_filename = 'temp_' + uuid.uuid4().hex + '.png'
             download_filepath = dependency_locator.get_geometrize_image_file_absolute_path(download_filename)
             result_filepath = dependency_locator.get_geometrize_image_file_absolute_path('geometrized_' + download_filename)
             
@@ -97,7 +97,7 @@ def on_on_demand_status_event(api, status):
             geometrize_options = {}
             geometrize_options["::IMAGE_INPUT_PATH::"] = download_filepath
             geometrize_options["::IMAGE_OUTPUT_PATH::"] = result_filepath
-            geometrize_options["::IMAGE_JOB_STEP_LOOPS::"] = tweet_parser.make_code_for_shape_tweet(message)
+            geometrize_options["::IMAGE_TASK_STEP_LOOPS::"] = tweet_parser.make_code_for_shape_tweet(message)
             if not geometrize.run_geometrize(code, geometrize_options):
                 print("Failed to run geometrize")
                 continue
@@ -134,7 +134,7 @@ def on_account_watcher_status_event(api, status):
 
     if 'media' in status.entities:
         for image in status.entities['media']:
-            download_filename = 'temp_' + uuid.uuid4().hex + '.jpg'
+            download_filename = 'temp_' + uuid.uuid4().hex + '.png'
             download_filepath = dependency_locator.get_geometrize_image_file_absolute_path(download_filename)
             result_filepath = dependency_locator.get_geometrize_image_file_absolute_path('geometrized_' + download_filename)
             
@@ -151,7 +151,7 @@ def on_account_watcher_status_event(api, status):
             geometrize_options = {}
             geometrize_options["::IMAGE_INPUT_PATH::"] = download_filepath
             geometrize_options["::IMAGE_OUTPUT_PATH::"] = result_filepath
-            geometrize_options["::IMAGE_JOB_STEP_LOOPS::"] = tweet_parser.make_code_for_shape_tweet(message)
+            geometrize_options["::IMAGE_TASK_STEP_LOOPS::"] = tweet_parser.make_code_for_shape_tweet(message)
             if not geometrize.run_geometrize(code, geometrize_options):
                 print("Failed to run geometrize")
                 continue

@@ -9,20 +9,23 @@ if(image.isNull()) {
     return;
 }
 
+// Make sure the image is in RGBA8888 format
+image := convertImageToRgba8888(image);
+
 // Create a RGBA8888 bitmap from the image, that Geometrize can turn to shapes
 var bitmap = createBitmap(image);
 
-// Create an image job that aims to reproduce the bitmap as shapes
+// Create an image task that aims to reproduce the bitmap as shapes
 // This implicitly uses the average color of the bitmap as the starting background
-// Note we use a synchronous job for simplicity/convenience
-var job = SynchronousImageJob(bitmap);
+// Note we use a synchronous task for simplicity/convenience
+var task = SynchronousImageTask(bitmap);
 
-// Step the image job
+// Step the image task
 for (var i = 0; i < stepCount; ++i) {
-    job.stepModel();
+    task.stepModel();
 }
 
 // Exports the current bitmap to the output path
-if(!exportBitmap(job.getCurrent(), outputPath)) {
+if(!exportBitmap(task.getCurrent(), outputPath)) {
     messageBox("Failed to write image to: " + outputPath);
 }

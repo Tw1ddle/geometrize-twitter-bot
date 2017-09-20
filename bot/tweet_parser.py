@@ -38,7 +38,7 @@ def _make_shape_type_dictionary():
     return dict
 
 def _make_loop_body(shape_type):
-    return "var prefs = job.getPreferences(); prefs.setShapeTypes(" + shape_type + "); job.setPreferences(prefs); job.stepModel();"
+    return "var prefs = task.getPreferences(); prefs.setShapeTypes(" + shape_type + "); task.setPreferences(prefs); task.stepModel();"
 
 def _make_for_loop(step_count, shape_type):
     return "for(var i = 0; i < " + str(step_count) + "; ++i) { " + _make_loop_body(shape_type) + " }";

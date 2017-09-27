@@ -24,6 +24,10 @@ Or tweet the specific numbers of shapes you want the bot to use, in the order th
 @Geometrizer rotated_ellipses=50 circles=50 rotated_rectangles=100 triangles=30 - thanks Geometrize bot!
 ```
 
+Here is an example of how it is done:
+
+[![Example Geometrize Bot Tweet](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/screenshots/example_geometrize_tweet.png?raw=true "Example Geometrize Tweet")](http://www.geometrize.co.uk/)
+
 ## Development
 
 ### Prerequisites

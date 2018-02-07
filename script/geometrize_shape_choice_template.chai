@@ -10,7 +10,7 @@ if(image.isNull()) {
 
 // Reduce the size to something that can be geometrized fairly quickly
 // This also keeps final file sizes manageable (should avoid hitting Twitter upload limits)
-var maxSize = 512;
+var maxSize = 256;
 if(image.width() >= maxSize) {
     image := image.scaledToWidth(maxSize, QtSmoothTransformation);
 }
@@ -31,6 +31,13 @@ var task = SynchronousImageTask(bitmap);
 
 // Add the initial background rectangle shape (we will export the shape data later)
 task.drawBackgroundRectangle();
+
+// Set some additional custom preferences
+var prefs = task.getPreferences();
+prefs.setCandidateShapeCount(1000);
+prefs.setMaxShapeMutations(1000);
+prefs.setMaxThreads(3);
+task.setPreferences(prefs);
 
 // Step the image task
 ::IMAGE_TASK_STEP_LOOPS::

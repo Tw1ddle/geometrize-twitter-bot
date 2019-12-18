@@ -66,12 +66,12 @@ def on_account_watcher_status_event(api, status):
 ## Callback triggered when setting up the stream filter for tracking the Geometrize bot account.
 def on_on_demand_filter_setup(stream):
     print("Setting up on demand tweet filter...")
-    stream.filter(track = [config.TWITTER_BOT_USERNAME], async = True)
+    stream.filter(track = [config.TWITTER_BOT_USERNAME], is_async = True)
 
 ## Callback triggered when setting up the stream filter for tracking specific Twitter accounts.
 def on_account_watcher_filter_setup(stream):
     print("Setting up account watcher tweet filter...")
-    stream.filter(follow = config.TWITTER_BOT_WATCH_ACCOUNTS, async = True)
+    stream.filter(follow = config.TWITTER_BOT_WATCH_ACCOUNTS, is_async = True)
 
 # Create and set up the on-demand Geometrize bot.
 # This bot waits for users to tweet images at the bot, which it then geometrizes.

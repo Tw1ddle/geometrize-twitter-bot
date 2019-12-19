@@ -23,5 +23,5 @@ TWITTER_BOT_USERNAME = "@Geometrizer" # The official bot by https://twitter.com/
 ## Twitter user ids of accounts that the Geometrize bot will watch for new tweets.
 ## When a tweet contains images, Geometrize will geometrize the images and tweet them out.
 ## Note you can get look up account ids easily using various sites online
-##                            "@PexelsPhotos", "@cc0_landscapes"
-TWITTER_BOT_WATCH_ACCOUNTS = ['2420838708',    '748738721390792710']
+##                            "@NYPLpostcards", "@UkiuoeBot"
+TWITTER_BOT_WATCH_ACCOUNTS = ['4730923097',    '809439447796355072']

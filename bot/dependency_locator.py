@@ -2,25 +2,31 @@
 #  Module with functionality for locating the Geometrize executable and other dependencies.
 
 import os
+import re
 from sys import platform
 
-## Gets a relative path to the Geometrize executable.
-def _get_geometrize_relative_path():
-    if platform == "linux" or platform == "linux2":
-        return "../geometrize/Geometrize"
-    elif platform == "darwin":
-        return "../geometrize/Geometrize.app"
-    elif platform == "win32":
-        return "../geometrize/Geometrize.exe"
+## Gets an absolute path to where we expect to find the Geometrize executable.
+def _get_geometrize_absolute_path():
+    baseDir = os.path.normpath(os.path.join(os.path.dirname(__file__), "../geometrize/")).replace('\\', '/')
+    
+    possibleExecutables = [name for name in os.listdir(baseDir) if re.match(r'[G|g]eometrize.*', name)]
+    
+    if len(possibleExecutables) > 1:
+        print("Warning, found multiple Geometrize executables: " + str(possibleExecutables))
+    
+    if not possibleExecutables:
+        print("Failed to find a path to the Geometrize executable")    
+    if platform == "linux" or platform == "linux2" or platform == "darwin" or platform == "win32":
+        return baseDir + "/" + possibleExecutables[0]
     else:
         print("Warning, the Geometrize bot might not work on this OS")
-        return "../geometrize/Geometrize"
+        
+    return baseDir + "/" + possibleExecutables[0]
+        
 
 ## Gets the absolute path to where we expect to find the Geometrize executable.
 def get_geometrize_executable_path():
-    relative_path = _get_geometrize_relative_path()
-    baseDir = os.path.dirname(__file__)
-    return os.path.normpath(os.path.join(baseDir, _get_geometrize_relative_path())).replace('\\', '/')
+    return _get_geometrize_absolute_path()
 
 ## Checks if the Geometrize executable exists.
 ## Returns true if the Geometrize executable exists at the expected location, else false.

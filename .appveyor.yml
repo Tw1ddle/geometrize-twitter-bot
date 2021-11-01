@@ -21,3 +21,5 @@ test_script:
   # Attempt to run the bot (expect failure to connect due to bad credentials)
   - cd %APPVEYOR_BUILD_FOLDER%
   - build_appveyor.cmd
+
+# Note that the documentation generation etc are triggered as a post-build script

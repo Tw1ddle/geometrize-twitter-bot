@@ -1,25 +1,24 @@
-image:
-  - Visual Studio 2019
+stack: python 3.9
 
-environment:
-  matrix:
-    # For Python versions available on Appveyor, see
-    # http://www.appveyor.com/docs/installed-software#python
-    - PYTHON: "C:\\Python38"
-    - PYTHON: "C:\\Python38-x64"
-    - PYTHON: "C:\\Python39"
-    - PYTHON: "C:\\Python39-x64"
+branches:
+  only:
+    - master
+
+image:
+  - Ubuntu2004
 
 build: off
 
 install:
-  # Get the Twitter bot library dependencies
-  - "%PYTHON%\\python.exe -m pip install pillow"
-  - "%PYTHON%\\python.exe -m pip install tweepy"
+  # Install the Twitter bot library dependencies
+  - python -m pip install --upgrade pip
+  - python -m pip install pillow
+  - python -m pip install tweepy
 
 test_script:
   # Attempt to run the bot (expect failure to connect due to bad credentials)
   - cd %APPVEYOR_BUILD_FOLDER%
-  - build_appveyor.cmd
+  - pushd bot
+  - python bot.py
 
 # Note that the documentation generation etc are triggered as a post-build script

@@ -1,14 +1,12 @@
-[![Geometrize Twitter bot logo](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/screenshots/logo.png?raw=true "Geometrize - geometrizing images into geometric primitives Twitter bot logo")](http://www.geometrize.co.uk/)
+[![Geometrize Twitter bot logo](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/screenshots/logo.png?raw=true "Geometrize - geometrizing images into geometric primitives Twitter bot logo")](https://www.geometrize.co.uk/)
 
-[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/LICENSE)
-[![Travis Twitter Bot Build Status](https://img.shields.io/travis/Tw1ddle/geometrize-twitter-bot.svg?style=flat-square)](https://travis-ci.org/Tw1ddle/geometrize-twitter-bot)
-[![AppVeyor Twitter Bot Build Status](https://ci.appveyor.com/api/projects/status/e9d5ghphfm3oa2au?svg=true)](https://ci.appveyor.com/project/Tw1ddle/geometrize-twitter-bot)
-[![Travis Twitter Bot Docs Build Status](https://img.shields.io/travis/Tw1ddle/geometrize-twitter-bot-docs.svg?style=flat-square)](https://travis-ci.org/Tw1ddle/geometrize-twitter-bot-docs)
+[![License](https://img.shields.io/:license-mit-blue.svg?style=flat-square)](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/LICENSE)
+[![Geometrize Twitter Bot Build Status](https://ci.appveyor.com/api/projects/status/github/Tw1ddle/geometrize-twitter-bot)](https://ci.appveyor.com/project/Tw1ddle/geometrize-twitter-bot)
 
-[Twitter bot](https://twitter.com/Geometrizer) for [Geometrize](http://www.geometrize.co.uk/), an app for geometrizing images into geometric primitives. The bot waits for images to be tweeted at it. It geometrizes images it receives into shapes, and [posts the results 
+[Twitter bot](https://twitter.com/Geometrizer) for [Geometrize](https://www.geometrize.co.uk/), an app for geometrizing images into geometric primitives. The bot waits for images to be tweeted at it. It geometrizes images it receives into shapes, and [posts the results 
 on Twitter](https://twitter.com/Geometrizer).
 
-[![Geometrized Forest](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/screenshots/forest.png?raw=true "Forest, 2000 circles")](http://www.geometrize.co.uk/)
+[![Geometrized Forest](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/screenshots/forest.png?raw=true "Forest, 2000 circles")](https://www.geometrize.co.uk/)
 
 ## Usage
 
@@ -26,13 +24,13 @@ Or tweet the specific numbers of shapes you want the bot to use, in the order th
 
 Here is an example of how it is done:
 
-[![Example Geometrize Bot Tweet](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/screenshots/example_geometrize_tweet.png?raw=true "Example Geometrize Tweet")](http://www.geometrize.co.uk/)
+[![Example Geometrize Bot Tweet](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/screenshots/example_geometrize_tweet.png?raw=true "Example Geometrize Tweet")](https://www.geometrize.co.uk/)
 
 ## Development
 
 ### Prerequisites
 
- * Get a copy of [Geometrize](http://www.geometrize.co.uk/). Install or copy it into the [geometrize](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/geometrize) subfolder.
+ * Get a copy of [Geometrize](https://www.geometrize.co.uk/). Install or copy it into the [geometrize](https://github.com/Tw1ddle/geometrize-twitter-bot/blob/master/geometrize) subfolder.
  * Install Python 3.x, pip, and the tweepy and Pillow libraries.
  * A fresh Twitter app on the Twitter [apps dashboard](https://apps.twitter.com/).
 
@@ -49,6 +47,6 @@ The bot should connect to the Twitter streaming API. Console output should look 
 Tweet an image at the bot. After a few moments, the bot will tweet a geometrized version back at you.
 
 ## Notes
- * If you want to develop the bot further, take a look at the [documentation](http://botdocs.geometrize.co.uk/).
+ * If you want to develop the bot further, take a look at the [documentation](https://botdocs.geometrize.co.uk/).
  * Got an idea or suggestion? Open an issue on GitHub, or send Sam a message on [Twitter](https://twitter.com/Sam_Twidale).
  * This bot was inspired by [primitive](https://github.com/fogleman/primitive), a Go library created by [Michael Fogleman](https://github.com/fogleman).
